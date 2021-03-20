@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -10,8 +11,18 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float attacksPerSecond;
     [SerializeField] private float maxTravelRange;
     [SerializeField] private float fireballDamage;
+    [SerializeField] private float fireballCastTime;
+
+    private PlayerMovement playerMovement;
+    private AIPath aiPath;
 
     private float attackTimer = 0f;
+
+    private void Awake()
+    {
+        playerMovement = GetComponent<PlayerMovement>();
+        aiPath = GetComponent<AIPath>();
+    }
 
     private float AttacksPerSecond
     {
@@ -22,7 +33,7 @@ public class PlayerAttack : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             if (attackTimer >= AttacksPerSecond)
             {
@@ -42,6 +53,8 @@ public class PlayerAttack : MonoBehaviour
 
     private void ShootFireBall()
     {
+        StartCoroutine(CastTime());
+
         //get the mouse position in world space
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         var mousePos2D = new Vector2(mousePos.x, mousePos.y);
@@ -82,5 +95,12 @@ public class PlayerAttack : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, maxTravelRange);
+    }
+    IEnumerator CastTime()
+    {
+        aiPath.canMove = false;
+        playerMovement.Target.transform.position = Player.Instance.transform.position;
+        yield return new WaitForSeconds(fireballCastTime);
+        aiPath.canMove = true;
     }
 }
