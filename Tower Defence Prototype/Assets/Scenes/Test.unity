@@ -3192,7 +3192,7 @@ Tilemap:
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 0.4056604, g: 0.3069194, b: 0.24301353, a: 1}
+  m_Color: {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 1}
   m_Origin: {x: -22, y: -19, z: 0}
   m_Size: {x: 44, y: 38, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -100303,7 +100303,7 @@ Tilemap:
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 0.2507565, g: 0.3301887, b: 0.2621645, a: 1}
+  m_Color: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
   m_Origin: {x: -53, y: -48, z: 0}
   m_Size: {x: 108, y: 99, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}

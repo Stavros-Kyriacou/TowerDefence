@@ -17,6 +17,7 @@ public class PlayerAttack : MonoBehaviour
     private AIPath aiPath;
 
     private float attackTimer = 0f;
+    private bool canCast = true;
 
     private void Awake()
     {
@@ -35,7 +36,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (attackTimer >= AttacksPerSecond)
+            if (attackTimer >= AttacksPerSecond && canCast)
             {
                 ShootFireBall();
                 attackTimer = 0f;
@@ -53,7 +54,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void ShootFireBall()
     {
-        StartCoroutine(CastTime());
+        StartCoroutine(CastTime(fireballCastTime));
 
         //get the mouse position in world space
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -96,11 +97,13 @@ public class PlayerAttack : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, maxTravelRange);
     }
-    IEnumerator CastTime()
+    IEnumerator CastTime(float castTime)
     {
+        canCast = false;
         aiPath.canMove = false;
         playerMovement.Target.transform.position = Player.Instance.transform.position;
-        yield return new WaitForSeconds(fireballCastTime);
+        yield return new WaitForSeconds(castTime);
         aiPath.canMove = true;
+        canCast = true;
     }
 }
