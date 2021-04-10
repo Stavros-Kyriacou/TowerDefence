@@ -4,16 +4,63 @@ using UnityEngine;
 
 public class SpellBase : MonoBehaviour
 {
-    [SerializeField] private float minDamage;
-    [SerializeField] private float maxDamage;
+    [Header("Damage")]
+    [SerializeField] private int minDamage;
+    [SerializeField] private int maxDamage;
 
+    [Header("Cast Time")]
+    [SerializeField] private float castTime;
+
+    [Header("Target To Hit")]
     [SerializeField] private LayerMask targetLayerMask;
 
-
     [Header("Audio")]
+    [SerializeField] private bool playAudio;
     [SerializeField] private AudioClip castSFX;
     [SerializeField] private AudioClip hitSFX;
     
 
+    //Properties
+    public float CastTime
+    {
+        get
+        {
+            return castTime;
+        }
+    }
+    public LayerMask TargetLayerMask
+    {
+        get
+        {
+            return targetLayerMask;
+        }
+    }
+    public bool PlayAudio
+    {
+        get
+        {
+            return playAudio;
+        }
+    }
+    public AudioClip CastSFX
+    {
+        get
+        {
+            return castSFX;
+        }
+    }
+    public AudioClip HitSFX
+    {
+        get
+        {
+            return hitSFX;
+        }
+    }
 
+
+    public int GetDamageInstance()
+    {
+        int damageInstance = Random.Range(minDamage, maxDamage);
+        return damageInstance;
+    }
 }

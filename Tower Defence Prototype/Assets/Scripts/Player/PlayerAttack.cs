@@ -8,47 +8,29 @@ public class PlayerAttack : MonoBehaviour
 {
     [Header("FireBall")]
     [SerializeField] private Fireball fireballPrefab;
-    [SerializeField] private float attacksPerSecond;
     [SerializeField] private float maxTravelRange;
     [SerializeField] private float fireballDamage;
     [SerializeField] private float fireballCastTime;
 
+    private Camera mainCam;
     private PlayerMovement playerMovement;
     private AIPath aiPath;
 
-    private float attackTimer = 0f;
+
     private bool canCast = true;
 
     private void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
         aiPath = GetComponent<AIPath>();
+        mainCam = Camera.main;
     }
 
-    private float AttacksPerSecond
-    {
-        get
-        {
-            return 1 / attacksPerSecond;
-        }
-    }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && canCast)
         {
-            if (attackTimer >= AttacksPerSecond && canCast)
-            {
-                ShootFireBall();
-                attackTimer = 0f;
-            }
-        }
-        if (attackTimer < 1)
-        {
-            attackTimer += Time.deltaTime;
-        }
-        else
-        {
-            attackTimer = 1;
+            ShootFireBall();
         }
     }
 
@@ -89,7 +71,7 @@ public class PlayerAttack : MonoBehaviour
 
         //spawn the projectile
         Fireball fireball = Instantiate(fireballPrefab, Player.Instance.transform.position, Quaternion.AngleAxis(angle, Vector3.forward)) as Fireball;
-        fireball.ProjectileDamage = fireballDamage;
+        //fireball.ProjectileDamage = fireballDamage;
         fireball.Destination = fireballDestination;
     }
     private void OnDrawGizmosSelected()
@@ -105,5 +87,11 @@ public class PlayerAttack : MonoBehaviour
         yield return new WaitForSeconds(castTime);
         aiPath.canMove = true;
         canCast = true;
+    }
+    private Vector2 GetMousePos()
+    {
+        Vector3 mousePos3D = mainCam.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 mousePos = new Vector2(mousePos3D.x, mousePos3D.y);
+        return mousePos;
     }
 }

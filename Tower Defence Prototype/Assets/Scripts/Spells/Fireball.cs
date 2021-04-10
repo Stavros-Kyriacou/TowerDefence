@@ -2,66 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fireball : Projectile
+public class Fireball : ProjectileSpell
 {
-    [Header("Fireball")]
-    [SerializeField] private GameObject explosionPrefab;
-    [SerializeField] private float moveSpeed;
-
     [Header("Fireball Explosion")]
+    [SerializeField] private GameObject explosionPrefab;
     [SerializeField] private float explosionRadius;
-    [SerializeField] private int explosionDamage;
-    [SerializeField] private LayerMask enemyLayerMask;
-
-    [Header("Audio")]
-    [SerializeField] private bool playSound;
-    [SerializeField] private AudioClip explodeSFX;
-
-    private Vector3 destination;
-    private bool reachedDestination;
-    public Vector3 Destination
-    {
-        get
-        {
-            return destination;
-        }
-        set
-        {
-            destination = value;
-        }
-    }
-    /*public float AttacksPerSecond
-    {
-        get
-        {
-            return  1 / attacksPerSecond;
-        }
-    }*/
-    /*public float MinAttacksPerSecond
-    {
-        get
-        {
-            return minAttacksPerSecond;
-        }
-    }*/
 
     private void Start()
     {
-        if (explodeSFX != null && playSound)
+        if (HitSFX != null && PlayAudio)
         {
-            AudioSource.PlayClipAtPoint(explodeSFX, new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z), 0.1f);
+            AudioSource.PlayClipAtPoint(HitSFX, new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z), 0.1f);
         }
     }
     void Update()
     {
-        if (!reachedDestination && destination != null)
+        if (!ReachedDestination && Destination != null)
         {
-            //have not reached destination, move towards destination
-            transform.position = Vector3.MoveTowards(transform.position, destination, moveSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, Destination, ProjectileSpeed * Time.deltaTime);        //have not reached destination, move towards destination
 
-            if (transform.position == destination)
+            if (transform.position == Destination)                                                                              //explode once reached destination
             {
-                reachedDestination = true;
+                ReachedDestination = true;
                 Explode();
             }
         }
@@ -69,13 +31,15 @@ public class Fireball : Projectile
 
     private void Explode()
     {
-        Instantiate(explosionPrefab, transform.position, explosionPrefab.transform.rotation);
+        Instantiate(explosionPrefab, transform.position, explosionPrefab.transform.rotation);                                   //OPTIMISATION dont spawn explosion, have it hidden initially as part of the same fireball prefab -> show it when fireball reached destination
 
-        Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(destination, explosionRadius, enemyLayerMask);
-        for (int i = 0; i < enemiesToDamage.Length; i++)
+        Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(Destination, explosionRadius, TargetLayerMask);               //array of all enemies in the explosion radius
+        var damageToDeal = GetDamageInstance();                                                                                 //calculate damage for this particular spell hit
+
+        for (int i = 0; i < enemiesToDamage.Length; i++)                                                                        //apply damage to all hit enemies
         {
             var enemy = enemiesToDamage[i].GetComponent<EnemyHealth>();
-            enemy.TakeDamage(ProjectileDamage);
+            enemy.TakeDamage(damageToDeal);
         }
 
         Destroy(gameObject);

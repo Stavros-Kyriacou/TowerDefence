@@ -5036,14 +5036,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 381331123b5a48b409d85fc37555bb3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileSpeed: 0
-  projectileDamage: 0
-  explosionPrefab: {fileID: 6159839267998698294, guid: 50faae9932ebc5d42abf48933590b1aa, type: 3}
-  moveSpeed: 30
-  explosionRadius: 2
-  explosionDamage: 0
-  enemyLayerMask:
+  minDamage: 40
+  maxDamage: 60
+  castTime: 0.3
+  targetLayerMask:
     serializedVersion: 2
     m_Bits: 512
-  playSound: 0
-  explodeSFX: {fileID: 8300000, guid: 9f0e9a6e319594e4fa8479e117444b77, type: 3}
+  playAudio: 0
+  castSFX: {fileID: 0}
+  hitSFX: {fileID: 0}
+  projectileSpeed: 10
+  explosionPrefab: {fileID: 6159839267998698294, guid: 50faae9932ebc5d42abf48933590b1aa, type: 3}
+  explosionRadius: 2

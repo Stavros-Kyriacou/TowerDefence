@@ -111,7 +111,7 @@ public class FireballTurret : Turret
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
         Fireball fireball = Instantiate(fireballPrefab, transform.position, Quaternion.AngleAxis(angle, Vector3.forward)) as Fireball;
-        fireball.ProjectileDamage = fireballDamage;
+        //fireball.ProjectileDamage = fireballDamage;
         fireball.Destination = projectileDestination;
     }
 
