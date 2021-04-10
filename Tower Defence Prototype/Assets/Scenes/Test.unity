@@ -100811,6 +100811,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 269138698}
     - target: {fileID: 9070627938934348418, guid: 7804375257c933047a13e61982b6f879, type: 3}
+      propertyPath: spells.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9070627938934348418, guid: 7804375257c933047a13e61982b6f879, type: 3}
+      propertyPath: spellList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9070627938934348418, guid: 7804375257c933047a13e61982b6f879, type: 3}
       propertyPath: fireballCastTime
       value: 0.3
       objectReference: {fileID: 0}
@@ -100818,6 +100826,14 @@ PrefabInstance:
       propertyPath: attacksPerSecond
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 9070627938934348418, guid: 7804375257c933047a13e61982b6f879, type: 3}
+      propertyPath: spells.Array.data[0]
+      value: 
+      objectReference: {fileID: -3254706205479640039, guid: 360bec2c13c6b804fb50f11d05056ecc, type: 3}
+    - target: {fileID: 9070627938934348418, guid: 7804375257c933047a13e61982b6f879, type: 3}
+      propertyPath: spellList.Array.data[0]
+      value: 
+      objectReference: {fileID: -3254706205479640039, guid: 360bec2c13c6b804fb50f11d05056ecc, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7804375257c933047a13e61982b6f879, type: 3}
 --- !u!1001 &9171270772728490033

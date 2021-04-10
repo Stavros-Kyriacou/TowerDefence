@@ -6,6 +6,7 @@ public class Fireball : ProjectileSpell
 {
     [Header("Fireball Explosion")]
     [SerializeField] private GameObject explosionPrefab;
+    [SerializeField] private Fireball myPrefab;
     [SerializeField] private float explosionRadius;
 
     private void Start()
@@ -28,7 +29,11 @@ public class Fireball : ProjectileSpell
             }
         }
     }
-
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, explosionRadius);
+    }
     private void Explode()
     {
         Instantiate(explosionPrefab, transform.position, explosionPrefab.transform.rotation);                                   //OPTIMISATION dont spawn explosion, have it hidden initially as part of the same fireball prefab -> show it when fireball reached destination
@@ -44,9 +49,27 @@ public class Fireball : ProjectileSpell
 
         Destroy(gameObject);
     }
-    private void OnDrawGizmosSelected()
+    public override void CastSpell(Vector2 mousePos, Vector2 playerPos)
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, explosionRadius);
+        Debug.Log("Cast Spell: Fireball");
+
+        var mouseDirection = (mousePos - playerPos).normalized;
+        var mousePlayerDistance = Vector2.Distance(playerPos, mousePos);
+        Vector3 fireballDestination = new Vector3();
+
+        if (mousePlayerDistance > TravelRange)
+        {
+            fireballDestination = (mouseDirection * TravelRange) + playerPos;
+        }
+        else
+        {
+            fireballDestination = mousePos;
+        }
+
+        Vector3 dir = fireballDestination - (Vector3)playerPos;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        Fireball fireball = Instantiate(myPrefab, playerPos, Quaternion.AngleAxis(angle, Vector3.forward));
+        fireball.Destination = fireballDestination;
     }
 }

@@ -6,6 +6,7 @@ public class ProjectileSpell : SpellBase
 {
     [Header("Projectile")]
     [SerializeField] private float projectileSpeed;
+    [SerializeField] private float travelRange;
     private Vector3 destination;
     private bool reachedDestination;
 
@@ -15,6 +16,13 @@ public class ProjectileSpell : SpellBase
         get
         {
             return projectileSpeed;
+        }
+    }
+    public float TravelRange
+    {
+        get
+        {
+            return travelRange;
         }
     }
     public Vector3 Destination

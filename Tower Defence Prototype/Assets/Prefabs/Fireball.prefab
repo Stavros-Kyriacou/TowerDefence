@@ -5046,5 +5046,7 @@ MonoBehaviour:
   castSFX: {fileID: 0}
   hitSFX: {fileID: 0}
   projectileSpeed: 10
+  travelRange: 7
   explosionPrefab: {fileID: 6159839267998698294, guid: 50faae9932ebc5d42abf48933590b1aa, type: 3}
+  myPrefab: {fileID: -3254706205479640039}
   explosionRadius: 2

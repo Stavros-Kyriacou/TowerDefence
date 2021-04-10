@@ -10,6 +10,7 @@ public class SpellBase : MonoBehaviour
 
     [Header("Cast Time")]
     [SerializeField] private float castTime;
+    [SerializeField] private float coolDown;
 
     [Header("Target To Hit")]
     [SerializeField] private LayerMask targetLayerMask;
@@ -26,6 +27,13 @@ public class SpellBase : MonoBehaviour
         get
         {
             return castTime;
+        }
+    }
+    public float CoolDown
+    {
+        get
+        {
+            return coolDown;
         }
     }
     public LayerMask TargetLayerMask
@@ -62,5 +70,10 @@ public class SpellBase : MonoBehaviour
     {
         int damageInstance = Random.Range(minDamage, maxDamage);
         return damageInstance;
+    }
+
+    public virtual void CastSpell(Vector2 mousePos, Vector2 playerPos)
+    {
+        Debug.LogError("CastSpell() not implemented on selected spell");
     }
 }

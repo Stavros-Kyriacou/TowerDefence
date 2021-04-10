@@ -6,16 +6,13 @@ using Pathfinding;
 
 public class PlayerAttack : MonoBehaviour
 {
-    [Header("FireBall")]
-    [SerializeField] private Fireball fireballPrefab;
-    [SerializeField] private float maxTravelRange;
-    [SerializeField] private float fireballDamage;
-    [SerializeField] private float fireballCastTime;
+    [Header("Spell List")]
+    [SerializeField] private List<SpellBase> spellList = new List<SpellBase>();
 
+    //cache components
     private Camera mainCam;
     private PlayerMovement playerMovement;
     private AIPath aiPath;
-
 
     private bool canCast = true;
 
@@ -25,18 +22,45 @@ public class PlayerAttack : MonoBehaviour
         aiPath = GetComponent<AIPath>();
         mainCam = Camera.main;
     }
-
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q) && canCast)
         {
-            ShootFireBall();
+            CastSpell(0);
         }
     }
+    private void CastSpell(int index)
+    {
+        //if the provided index is within range of the list, cast the spell and start cast time
+        if (index >= 0 && index < spellList.Count)
+        {
+            spellList[index].CastSpell(GetMouseWorldPos(), transform.position);
+            StartCoroutine(CastTime(spellList[index].CastTime));
+        }
+        else
+        {
+            Debug.LogError("Spell Index is not in range of list");
+        }
+    }
+    IEnumerator CastTime(float castTime)
+    {
+        canCast = false;                                                                                //cant cast any other spells or move during cast time
+        aiPath.canMove = false;
+        playerMovement.Target.transform.position = Player.Instance.transform.position;                  //set movement target location to current pos so that you dont auto walk to previous mouse click after cast time
+        yield return new WaitForSeconds(castTime);
 
+        aiPath.canMove = true;                                                                          //after cast time is done, allow casting and moving
+        canCast = true;
+    }
+    private Vector2 GetMouseWorldPos()
+    {
+        Vector3 mousePos3D = mainCam.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 mousePos = new Vector2(mousePos3D.x, mousePos3D.y);
+        return mousePos;
+    }
     private void ShootFireBall()
     {
-        StartCoroutine(CastTime(fireballCastTime));
+        /*StartCoroutine(CastTime(fireballCastTime));
 
         //get the mouse position in world space
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -72,26 +96,6 @@ public class PlayerAttack : MonoBehaviour
         //spawn the projectile
         Fireball fireball = Instantiate(fireballPrefab, Player.Instance.transform.position, Quaternion.AngleAxis(angle, Vector3.forward)) as Fireball;
         //fireball.ProjectileDamage = fireballDamage;
-        fireball.Destination = fireballDestination;
-    }
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, maxTravelRange);
-    }
-    IEnumerator CastTime(float castTime)
-    {
-        canCast = false;
-        aiPath.canMove = false;
-        playerMovement.Target.transform.position = Player.Instance.transform.position;
-        yield return new WaitForSeconds(castTime);
-        aiPath.canMove = true;
-        canCast = true;
-    }
-    private Vector2 GetMousePos()
-    {
-        Vector3 mousePos3D = mainCam.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 mousePos = new Vector2(mousePos3D.x, mousePos3D.y);
-        return mousePos;
+        fireball.Destination = fireballDestination;*/
     }
 }
