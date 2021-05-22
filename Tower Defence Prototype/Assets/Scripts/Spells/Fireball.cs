@@ -29,30 +29,8 @@ public class Fireball : ProjectileSpell
             }
         }
     }
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, explosionRadius);
-    }
-    private void Explode()
-    {
-        Instantiate(explosionPrefab, transform.position, explosionPrefab.transform.rotation);                                   //OPTIMISATION dont spawn explosion, have it hidden initially as part of the same fireball prefab -> show it when fireball reached destination
-
-        Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(Destination, explosionRadius, TargetLayerMask);               //array of all enemies in the explosion radius
-        var damageToDeal = GetDamageInstance();                                                                                 //calculate damage for this particular spell hit
-
-        for (int i = 0; i < enemiesToDamage.Length; i++)                                                                        //apply damage to all hit enemies
-        {
-            var enemy = enemiesToDamage[i].GetComponent<EnemyHealth>();
-            enemy.TakeDamage(damageToDeal);
-        }
-
-        Destroy(gameObject);
-    }
     public override void CastSpell(Vector2 mousePos, Vector2 playerPos)
     {
-        Debug.Log("Cast Spell: Fireball");
-
         var mouseDirection = (mousePos - playerPos).normalized;
         var mousePlayerDistance = Vector2.Distance(playerPos, mousePos);
         Vector3 fireballDestination = new Vector3();
@@ -71,5 +49,25 @@ public class Fireball : ProjectileSpell
 
         Fireball fireball = Instantiate(myPrefab, playerPos, Quaternion.AngleAxis(angle, Vector3.forward));
         fireball.Destination = fireballDestination;
+    }
+    private void Explode()
+    {
+        Instantiate(explosionPrefab, transform.position, explosionPrefab.transform.rotation);                                   //OPTIMISATION dont spawn explosion, have it hidden initially as part of the same fireball prefab -> show it when fireball reached destination
+
+        Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(Destination, explosionRadius, TargetLayerMask);               //array of all enemies in the explosion radius
+        var damageInstance = GetDamageInstance();                                                                                 //calculate damage for this particular spell hit
+
+        for (int i = 0; i < enemiesToDamage.Length; i++)                                                                        //apply damage to all hit enemies
+        {
+            var enemy = enemiesToDamage[i].GetComponent<EnemyHealth>();
+            enemy.TakeDamage(damageInstance);
+        }
+
+        Destroy(gameObject);
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, explosionRadius);
     }
 }

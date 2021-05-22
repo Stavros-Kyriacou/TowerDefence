@@ -26,7 +26,31 @@ public class PlayerAttack : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q) && canCast)
         {
-            CastSpell(0);
+            ManaCheck(0);
+        }
+        else if (Input.GetKeyDown(KeyCode.W) && canCast)
+        {
+            ManaCheck(1);
+        }
+        else if (Input.GetKeyDown(KeyCode.E) && canCast)
+        {
+            ManaCheck(2);
+        }
+        else if (Input.GetKeyDown(KeyCode.R) && canCast)
+        {
+            ManaCheck(3);
+        }
+    }
+    private void ManaCheck(int spellIndex)
+    {
+        if (Player.Instance.CurrentMana >= spellList[spellIndex].ManaCost)
+        {
+            Player.Instance.CurrentMana -= spellList[spellIndex].ManaCost;
+            CastSpell(spellIndex);
+        }
+        else
+        {
+            Debug.Log($"You don't have enough mana for {spellList[spellIndex]}");
         }
     }
     private void CastSpell(int index)
