@@ -10,7 +10,6 @@ public class ProjectileSpell : SpellBase
     private Vector3 destination;
     private bool reachedDestination;
 
-    //Properties
     public float ProjectileSpeed
     {
         get

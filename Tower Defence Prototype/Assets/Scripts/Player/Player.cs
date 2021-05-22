@@ -13,7 +13,33 @@ public class Player : MonoBehaviour, IDamageable
 
     //Stats
     [SerializeField] private float maxHealth;
+    [SerializeField] private float maxMana;
+
     private float currentHealth;
+    private float currentMana;
+
+    public float CurrentMana
+    {
+        get
+        {
+            return currentMana;
+        }
+        set
+        {
+            currentMana = value;
+        }
+    }
+    public float CurrentHealth
+    {
+        get
+        {
+            return currentHealth;
+        }
+        set
+        {
+            currentHealth = value;
+        }
+    }
 
     private void Awake()
     {
@@ -23,6 +49,7 @@ public class Player : MonoBehaviour, IDamageable
         inventory.enabled = false;
 
         currentHealth = maxHealth;                                                      //initialize health
+        currentMana = maxMana;
     }
     public Vector2 GetPosition()
     {

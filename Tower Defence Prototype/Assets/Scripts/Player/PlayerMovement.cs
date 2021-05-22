@@ -50,13 +50,13 @@ public class PlayerMovement : MonoBehaviour
             SetDestination(target.transform);
         }
 
-        moveDirectionX = Input.GetAxisRaw("Horizontal");
+        /*moveDirectionX = Input.GetAxisRaw("Horizontal");
         moveDirectionY = Input.GetAxisRaw("Vertical");
         moveDirection = new Vector2(moveDirectionX, moveDirectionY).normalized;
 
         animator.SetFloat("dirX", moveDirectionX);
 
-        FlipSprite();
+        FlipSprite();*/
     }
 
 

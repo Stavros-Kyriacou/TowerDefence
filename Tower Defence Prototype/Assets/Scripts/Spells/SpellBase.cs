@@ -8,6 +8,9 @@ public class SpellBase : MonoBehaviour
     [SerializeField] private int minDamage;
     [SerializeField] private int maxDamage;
 
+    [Header("Cost")]
+    [SerializeField] private int manaCost;
+
     [Header("Cast Time")]
     [SerializeField] private float castTime;
     [SerializeField] private float coolDown;
@@ -19,9 +22,14 @@ public class SpellBase : MonoBehaviour
     [SerializeField] private bool playAudio;
     [SerializeField] private AudioClip castSFX;
     [SerializeField] private AudioClip hitSFX;
-    
-
-    //Properties
+   
+    public int ManaCost
+    {
+        get
+        {
+            return manaCost;
+        }
+    }
     public float CastTime
     {
         get
@@ -64,7 +72,6 @@ public class SpellBase : MonoBehaviour
             return hitSFX;
         }
     }
-
 
     public int GetDamageInstance()
     {
