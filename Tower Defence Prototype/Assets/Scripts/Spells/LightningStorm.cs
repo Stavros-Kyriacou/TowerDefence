@@ -6,6 +6,7 @@ public class LightningStorm : GroundSpell
 {
     [Header("Lightning Storm")]
     [SerializeField] private LightningStorm myPrefab;
+    [SerializeField] private ParticleSystem pulseParticle;
     [Header("DamageOverTime")]
     [SerializeField] private float hitRate;
 
@@ -16,6 +17,7 @@ public class LightningStorm : GroundSpell
     }
     private void DealDamage()
     {
+        pulseParticle.Play();
         Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(transform.position, SpellRadius, TargetLayerMask);               //array of all enemies in the spell radius
         var damageInstance = GetDamageInstance();                                                                                     //calculate damage for this particular spell hit
 

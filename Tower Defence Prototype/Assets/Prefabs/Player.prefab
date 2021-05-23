@@ -494,7 +494,7 @@ MonoBehaviour:
   maxHealth: 100
   healthRegen: 0
   maxMana: 100
-  manaRegen: 5
+  manaRegen: 8
   healthBar: {fileID: 8724855006376290019}
   manaBar: {fileID: 5956176620703849023}
   inventory: {fileID: 0}
