@@ -2,13 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
+    [Header("Stats")]
     [SerializeField] private int maxHealth;
-    [SerializeField] private float currentHealth;
+    private float currentHealth;
 
+    [Header("Effects")]
     [SerializeField] private GameObject deathEffect;
+
+    [Header("UI")]
+    [SerializeField] private Image healthBar;
 
     private void Start()
     {
@@ -17,6 +23,8 @@ public class EnemyHealth : MonoBehaviour
     public void TakeDamage(float damageToTake)
     {
         currentHealth -= damageToTake;
+
+        healthBar.fillAmount = currentHealth / maxHealth;
 
         if (currentHealth <= 0)
         {

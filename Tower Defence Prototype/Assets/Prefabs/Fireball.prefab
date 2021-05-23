@@ -4940,9 +4940,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 381331123b5a48b409d85fc37555bb3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDamage: 40
-  maxDamage: 60
-  manaCost: 10
+  minDamage: 15
+  maxDamage: 35
+  manaCost: 15
   castTime: 0.3
   coolDown: 0
   targetLayerMask:

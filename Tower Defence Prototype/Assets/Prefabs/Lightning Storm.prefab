@@ -57,7 +57,7 @@ MonoBehaviour:
   playAudio: 0
   castSFX: {fileID: 0}
   hitSFX: {fileID: 0}
-  duration: 5
+  duration: 7
   spellRadius: 3
   castRange: 10
   myPrefab: {fileID: 5877590709144337512}

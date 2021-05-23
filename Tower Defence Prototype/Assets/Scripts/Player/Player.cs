@@ -7,17 +7,33 @@ public class Player : MonoBehaviour, IDamageable
 {
     public static Player Instance { get; private set; }
 
-    //Inventory
+    [Header("Stats")]
+    [SerializeField] private float maxHealth;
+    [SerializeField] private float healthRegen;
+    [SerializeField] private float maxMana;
+    [SerializeField] private float manaRegen;
+
+
+    [Header("UI")]
+    [SerializeField] private Image healthBar;
+    [SerializeField] private Image manaBar;
+
+
+    [Header("Inventory")]
     [SerializeField] private Canvas inventory;
     private bool isInventoryVisible;
 
-    //Stats
-    [SerializeField] private float maxHealth;
-    [SerializeField] private float maxMana;
 
     private float currentHealth;
     private float currentMana;
 
+    public float MaxMana
+    {
+        get
+        {
+            return maxMana;
+        }
+    }
     public float CurrentMana
     {
         get
@@ -40,6 +56,20 @@ public class Player : MonoBehaviour, IDamageable
             currentHealth = value;
         }
     }
+    public float MaxHealth
+    {
+        get
+        {
+            return maxHealth;
+        }
+    }
+    public Image ManaBar
+    {
+        get
+        {
+            return manaBar;
+        }
+    }
 
     private void Awake()
     {
@@ -58,6 +88,18 @@ public class Player : MonoBehaviour, IDamageable
 
     private void Update()
     {
+        //if current mana is less that max mana
+        //increases by mana regen * time.delta time
+        //clamp at max mana
+
+        if (currentMana < maxMana)
+        {
+            currentMana += manaRegen * Time.deltaTime;
+            currentMana = Mathf.Clamp(currentMana, 0f, maxMana);
+            manaBar.fillAmount = currentMana / maxMana;
+        }
+
+
         if (Input.GetKeyDown(KeyCode.I))
         {
             ToggleInventory();

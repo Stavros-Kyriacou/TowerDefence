@@ -13,6 +13,7 @@ public class PlayerAttack : MonoBehaviour
     private Camera mainCam;
     private PlayerMovement playerMovement;
     private AIPath aiPath;
+    private Player player;
 
     private bool canCast = true;
 
@@ -21,6 +22,7 @@ public class PlayerAttack : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         aiPath = GetComponent<AIPath>();
         mainCam = Camera.main;
+        player = GetComponent<Player>();
     }
     void Update()
     {
@@ -46,6 +48,7 @@ public class PlayerAttack : MonoBehaviour
         if (Player.Instance.CurrentMana >= spellList[spellIndex].ManaCost)
         {
             Player.Instance.CurrentMana -= spellList[spellIndex].ManaCost;
+            player.ManaBar.fillAmount = player.CurrentMana / player.MaxMana;
             CastSpell(spellIndex);
         }
         else
