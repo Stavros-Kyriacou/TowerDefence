@@ -13,16 +13,9 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private float maxMana;
     [SerializeField] private float manaRegen;
 
-
     [Header("UI")]
     [SerializeField] private Image healthBar;
     [SerializeField] private Image manaBar;
-
-
-    [Header("Inventory")]
-    [SerializeField] private Canvas inventory;
-    private bool isInventoryVisible;
-
 
     private float currentHealth;
     private float currentMana;
@@ -75,9 +68,6 @@ public class Player : MonoBehaviour, IDamageable
     {
         Instance = this;                                                                //singleton, this is the only player
 
-        isInventoryVisible = false;                                                     //hide inventory
-        inventory.enabled = false;
-
         currentHealth = maxHealth;                                                      //initialize health
         currentMana = maxMana;
     }
@@ -88,34 +78,11 @@ public class Player : MonoBehaviour, IDamageable
 
     private void Update()
     {
-        //if current mana is less that max mana
-        //increases by mana regen * time.delta time
-        //clamp at max mana
-
         if (currentMana < maxMana)
         {
             currentMana += manaRegen * Time.deltaTime;
             currentMana = Mathf.Clamp(currentMana, 0f, maxMana);
             manaBar.fillAmount = currentMana / maxMana;
-        }
-
-
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            ToggleInventory();
-        }
-    }
-    private void ToggleInventory()
-    {
-        if (isInventoryVisible)
-        {
-            isInventoryVisible = false;
-            inventory.enabled = false;
-        }
-        else
-        {
-            isInventoryVisible = true;
-            inventory.enabled = true;
         }
     }
     public void TakeDamage(float damageAmount)

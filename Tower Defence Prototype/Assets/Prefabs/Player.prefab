@@ -497,7 +497,6 @@ MonoBehaviour:
   manaRegen: 8
   healthBar: {fileID: 8724855006376290019}
   manaBar: {fileID: 5956176620703849023}
-  inventory: {fileID: 0}
 --- !u!114 &9070627938934348418
 MonoBehaviour:
   m_ObjectHideFlags: 0
