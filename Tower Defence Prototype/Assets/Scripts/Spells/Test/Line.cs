@@ -31,15 +31,10 @@ public class Line : MonoBehaviour
         }
     }
 
-    //Constructor
     public Line(Vector2 pointA, Vector2 pointB)
     {
         this.pointA = pointA;
         this.pointB = pointB;
-    }
-
-    private void Start()
-    {
     }
     public void DrawLine()
     {
