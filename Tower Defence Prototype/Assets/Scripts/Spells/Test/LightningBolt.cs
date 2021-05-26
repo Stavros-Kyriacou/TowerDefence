@@ -6,6 +6,7 @@ public class LightningBolt : MonoBehaviour
 {
     [SerializeField] private GameObject linePrefab;
     [SerializeField] private int segments;
+    [SerializeField] private Color colour;
     [SerializeField] private Vector2 start;
     [SerializeField] private Vector2 end;
     [SerializeField] private float minSpread;
@@ -14,8 +15,8 @@ public class LightningBolt : MonoBehaviour
     private List<Vector2> randomLocations;
     private void Start()
     {
-        InvokeRepeating("Initialise", 0f, .05f);
-        // Initialise();
+        // InvokeRepeating("Initialise", 0f, .05f);
+        Initialise();
     }
 
     public void Initialise()
@@ -30,7 +31,7 @@ public class LightningBolt : MonoBehaviour
         }
 
 
-        randomLocations = GetRandomPointsOnLine(start, end);
+        // randomLocations = GetRandomPointsOnLine(start, end);
 
         //instatiates the lines, parents them to this object, all lines get stored in a list
         for(int i = 0; i < segments; i++)
@@ -40,10 +41,13 @@ public class LightningBolt : MonoBehaviour
             // line.SetActive(false);
             lines.Add(line);
         }
-        Activate();
+        // Activate();
+        InvokeRepeating("Activate", 0f, .1f);
     }
     public void Activate()
     {
+        randomLocations = GetRandomPointsOnLine(start, end);
+
         Vector2 currentPoint;
         Vector2 nextPoint;
         
@@ -52,6 +56,7 @@ public class LightningBolt : MonoBehaviour
             currentPoint = randomLocations[i];
             nextPoint = randomLocations[i + 1];
             Line lineComponent = lines[i].GetComponent<Line>();
+            lineComponent.GetComponentInChildren<SpriteRenderer>().color = colour;
             lineComponent.PointA = currentPoint;
             lineComponent.PointB = nextPoint;
             lineComponent.DrawLine();
@@ -88,11 +93,16 @@ public class LightningBolt : MonoBehaviour
             //get the normalalized perpendicular left vector of the line
             Vector2 perpendicular = Vector2.Perpendicular(direction).normalized;
 
-            if (Random.Range(0,2) == 0)
+            if (i % 2 == 0)
             {
-                //50% to flip the perpendicular right for variation in the jagged pattern
                 perpendicular = -perpendicular;
             }
+
+            // if (Random.Range(0,2) == 0)
+            // {
+            //     //50% to flip the perpendicular right for variation in the jagged pattern
+            //     perpendicular = -perpendicular;
+            // }
 
             //scale the perpendicular vector by the spread and add it to the points
             convertedPoint +=  start + (perpendicular * Random.Range(minSpread, maxSpread));
