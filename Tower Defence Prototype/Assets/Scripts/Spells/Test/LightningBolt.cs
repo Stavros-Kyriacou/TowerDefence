@@ -14,7 +14,7 @@ public class LightningBolt : MonoBehaviour
     private List<Vector2> randomLocations;
     private void Start()
     {
-        InvokeRepeating("Initialise", 0f, .5f);
+        InvokeRepeating("Initialise", 0f, .05f);
         // Initialise();
     }
 
@@ -95,7 +95,7 @@ public class LightningBolt : MonoBehaviour
             }
 
             //scale the perpendicular vector by the spread and add it to the points
-            convertedPoint += (perpendicular * Random.Range(minSpread, maxSpread));
+            convertedPoint +=  start + (perpendicular * Random.Range(minSpread, maxSpread));
 
             vectors.Add(convertedPoint);
         }

@@ -3422,9 +3422,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linePrefab: {fileID: 22400482923807818, guid: 537e8c5affc9354448c06a0592181637, type: 3}
-  segments: 3
-  start: {x: 0, y: 0}
-  end: {x: 4, y: 0}
+  segments: 2
+  start: {x: 1, y: 1}
+  end: {x: 1, y: -10}
   minSpread: 0.2
   maxSpread: 0.5
 --- !u!4 &699708856
