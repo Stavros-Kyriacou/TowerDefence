@@ -6,29 +6,33 @@ public class LightningBolt : MonoBehaviour
 {
     [SerializeField] private GameObject linePrefab;
     [SerializeField] private int segments;
-
     [SerializeField] private Vector2 start;
     [SerializeField] private Vector2 end;
+    [SerializeField] private float minSpread;
+    [SerializeField] private float maxSpread;
     private List<GameObject> lines;
     private List<Vector2> randomLocations;
     private void Start()
     {
-        InvokeRepeating("Initialise", 0f, .1f);
+        InvokeRepeating("Initialise", 0f, .5f);
         // Initialise();
     }
 
     public void Initialise()
     {
+        lines = new List<GameObject>();
+
+        //removes the previous lines
+        //NEED TO ADD OBJECT POOLING
         foreach(Transform child in gameObject.transform)
         {
             GameObject.Destroy(child.gameObject);
         }
 
+
         randomLocations = GetRandomPointsOnLine(start, end);
 
-        //instantiates the lines parented to the lightning bolt, stores them in a list
-        lines = new List<GameObject>();
-
+        //instatiates the lines, parents them to this object, all lines get stored in a list
         for(int i = 0; i < segments; i++)
         {
             GameObject line = Instantiate(linePrefab);
@@ -58,34 +62,44 @@ public class LightningBolt : MonoBehaviour
         List<Vector2> vectors = new List<Vector2>();
         List<float> points = new List<float>();
 
-        Vector2 distance = end - start;
-        Vector2 normal = distance.normalized;
+        //get the direction of the slope and its normalized direction
+        Vector2 direction = end - start;
+        Vector2 normalDir = direction.normalized;
 
+        //get random points on the line, store them in a list
         for (int i = 0; i < segments - 1; i++)
         {
-            float randomPoint = Random.Range(0, distance.magnitude);
-            Debug.Log("Unsorted Random point on line: " + randomPoint);
+            float randomPoint = Random.Range(0, direction.magnitude);
             points.Add(randomPoint);
         }
 
+        //so that lines can be drawn from closest to the start to the furthest
         points.Sort();
 
-        foreach (float f in points)
-        {
-            Debug.Log("Sorted Random point on line: " + f);
-        }
-
+        //getting a list of vector2s that have randomness added to create the jagged lines
+        //add the start location so that it is first, end location gets added after the random points are added
         vectors.Add(start);
+
         for (int i = 0; i < points.Count; i++)
         {
-            Vector2 convertedPoint = points[i] * normal;
-            Debug.Log("Point * normal: " + convertedPoint);
+            //converts the random point on the line to a Vector2, point * normalDirection(length is always 1)
+            Vector2 convertedPoint = points[i] * normalDir;
 
-            convertedPoint += Random.insideUnitCircle * (distance.magnitude / 4) ;
-            Debug.Log("Converted point + random unit circle: " + convertedPoint);
+            //get the normalalized perpendicular left vector of the line
+            Vector2 perpendicular = Vector2.Perpendicular(direction).normalized;
+
+            if (Random.Range(0,2) == 0)
+            {
+                //50% to flip the perpendicular right for variation in the jagged pattern
+                perpendicular = -perpendicular;
+            }
+
+            //scale the perpendicular vector by the spread and add it to the points
+            convertedPoint += (perpendicular * Random.Range(minSpread, maxSpread));
 
             vectors.Add(convertedPoint);
         }
+
         vectors.Add(end);
 
         return vectors;
