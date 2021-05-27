@@ -5,86 +5,99 @@ using Pathfinding;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Rigidbody2D rigidBody;
-    private SpriteRenderer spriteRenderer;
-    private Animator animator;
-    private AIDestinationSetter destinationSetter;
-    private new Camera camera;
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private float movementSpeed;
+    [SerializeField] private LayerMask collisionLayerMask;
+    private MouseInput mouseInput;
+    private Vector2 destination;
+    private CircleCollider2D circleCollider;
+    [SerializeField] private float colliderBuffer;
+    private float colliderRadius;
+    private bool canMove;
 
-    [SerializeField] private float moveSpeed;
-    private Vector2 moveDirection;
-    private float moveDirectionX;
-    private float moveDirectionY;
-
-    private Vector2 mousePos;
-    [SerializeField] private Transform target;
-
-
-    public Transform Target
+    public Vector2 Destination
     {
         get
         {
-            return target;
+            return destination;
         }
         set
         {
-            target = value;
+            destination = value;
         }
     }
-
-    void Start()
+    public bool CanMove
     {
-        rigidBody = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        animator = GetComponentInChildren<Animator>();
-        destinationSetter = GetComponent<AIDestinationSetter>();
-        camera = Camera.main;
-    }
-
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
+        get
         {
-            mousePos = camera.ScreenToWorldPoint(Input.mousePosition);
-            target.transform.position = mousePos;
-            SetDestination(target.transform);
+            return canMove;
         }
-
-        /*moveDirectionX = Input.GetAxisRaw("Horizontal");
-        moveDirectionY = Input.GetAxisRaw("Vertical");
-        moveDirection = new Vector2(moveDirectionX, moveDirectionY).normalized;
-
-        animator.SetFloat("dirX", moveDirectionX);
-
-        FlipSprite();*/
-    }
-
-
-    private void FixedUpdate()
-    {
-        rigidBody.velocity = moveDirection * moveSpeed;
-        if (rigidBody.velocity.magnitude > 0)
+        set
         {
-            animator.SetBool("isWalking", true);
-        }
-        else
-        {
-            animator.SetBool("isWalking", false);
+            canMove = value;
         }
     }
-    private void FlipSprite()
+    private void Awake()
     {
-        /*if(deltaX < 0)
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
-        else
-        {
-            transform.localScale = new Vector3(1, 1, 1);
-        }*/
+        mouseInput = new MouseInput();
+        circleCollider = GetComponent<CircleCollider2D>();
+        colliderRadius = circleCollider.radius;
     }
-    private void SetDestination(Transform targetPos)
+    private void OnEnable()
     {
-        destinationSetter.target = targetPos;
+        mouseInput.Enable();
+    }
+    private void OnDisable()
+    {
+        mouseInput.Disable();
+    }
+    private void Start()
+    {
+        canMove = true;
+        destination = transform.position;
+        mouseInput.Mouse.MouseClick.performed += _ => MouseClick();
+    }
+    private void MouseClick()
+    {
+        if (canMove)
+        {
+            //get the mouse position in world space
+            Vector2 mousePosition = mouseInput.Mouse.MousePosition.ReadValue<Vector2>();
+            mousePosition = mainCamera.ScreenToWorldPoint(mousePosition);
+
+            //get the distance and direction of the mouse from the player
+            float mouseDistance = Vector2.Distance(mousePosition, transform.position);
+            Vector2 mouseDirection = (mousePosition - (Vector2)transform.position).normalized;
+
+            //draw ray from player to mouse location
+            //OPTIONAL add the buffer distance to the diestination of the ray to stop getting extremely close to a wall and bouncing
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, mouseDirection, mouseDistance, collisionLayerMask);
+            Debug.DrawRay(transform.position, mouseDirection * mouseDistance, Color.red);
+
+            if (hit.collider != null)
+            {
+                //get the distance and direction of the hit from the player
+                float distance = Vector2.Distance(hit.point, transform.position);
+                Vector2 direction = (hit.point - (Vector2)transform.position).normalized;
+
+                //account for the collider and buffer disttance
+                float fixedDistance = distance - (colliderRadius + colliderBuffer);
+
+                //set destination
+                destination = (Vector2)transform.position + (fixedDistance * direction);
+            }
+            else
+            {
+                destination = mousePosition;
+            }
+        }
+    }
+    private void Update()
+    {
+        // transform.position = Vector2.MoveTowards(transform.position, destination, movementSpeed * Time.deltaTime);
+        if (Vector2.Distance(transform.position, destination) > 0.1f)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, destination, movementSpeed * Time.deltaTime);
+        }
     }
 }

@@ -20,7 +20,7 @@ public class PlayerAttack : MonoBehaviour
     private void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
-        aiPath = GetComponent<AIPath>();
+        // aiPath = GetComponent<AIPath>();
         mainCam = Camera.main;
         player = GetComponent<Player>();
     }
@@ -72,11 +72,11 @@ public class PlayerAttack : MonoBehaviour
     IEnumerator CastTime(float castTime)
     {
         canCast = false;                                                                                //cant cast any other spells or move during cast time
-        aiPath.canMove = false;
-        playerMovement.Target.transform.position = Player.Instance.transform.position;                  //set movement target location to current pos so that you dont auto walk to previous mouse click after cast time
+        playerMovement.CanMove = false;
+        playerMovement.Destination = playerMovement.transform.position;                                 //set movement target location to current pos so that you dont auto walk to previous mouse click after cast time
         yield return new WaitForSeconds(castTime);
 
-        aiPath.canMove = true;                                                                          //after cast time is done, allow casting and moving
+        playerMovement.CanMove = true;                                                                          //after cast time is done, allow casting and moving
         canCast = true;
     }
     private Vector2 GetMouseWorldPos()
