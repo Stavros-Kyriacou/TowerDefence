@@ -7,16 +7,43 @@ public class LightningBolt : MonoBehaviour
     [SerializeField] private GameObject linePrefab;
     [SerializeField] private int segments;
     [SerializeField] private Color colour;
-    [SerializeField] private Vector2 start;
-    [SerializeField] private Vector2 end;
+    [SerializeField] private Vector2 startPoint;
+    [SerializeField] private Vector2 endPoint;
     [SerializeField] private float minSpread;
     [SerializeField] private float maxSpread;
+    [SerializeField] private float updateRate;
     private List<GameObject> lines;
     private List<Vector2> randomLocations;
-    private void Start()
+
+    public Vector2 StartPoint
+    {
+        get
+        {
+            return startPoint;
+        }
+        set
+        {
+            startPoint = value;
+        }
+    }
+    public Vector2 EndPoint
+    {
+        get
+        {
+            return endPoint;
+        }
+        set
+        {
+            endPoint = value;
+        }
+    }
+    private void Awake()
     {
         // InvokeRepeating("Initialise", 0f, .05f);
         Initialise();
+    }
+    private void OnEnable() {
+        InvokeRepeating("Activate", 0f, updateRate);
     }
 
     public void Initialise()
@@ -25,7 +52,7 @@ public class LightningBolt : MonoBehaviour
 
         //removes the previous lines
         //NEED TO ADD OBJECT POOLING
-        foreach(Transform child in gameObject.transform)
+        foreach (Transform child in gameObject.transform)
         {
             GameObject.Destroy(child.gameObject);
         }
@@ -34,7 +61,7 @@ public class LightningBolt : MonoBehaviour
         // randomLocations = GetRandomPointsOnLine(start, end);
 
         //instatiates the lines, parents them to this object, all lines get stored in a list
-        for(int i = 0; i < segments; i++)
+        for (int i = 0; i < segments; i++)
         {
             GameObject line = Instantiate(linePrefab);
             line.transform.parent = transform;
@@ -42,15 +69,15 @@ public class LightningBolt : MonoBehaviour
             lines.Add(line);
         }
         // Activate();
-        InvokeRepeating("Activate", 0f, .1f);
+        // InvokeRepeating("Activate", 0f, .1f);
     }
     public void Activate()
     {
-        randomLocations = GetRandomPointsOnLine(start, end);
+        randomLocations = GetRandomPointsOnLine(startPoint, endPoint);
 
         Vector2 currentPoint;
         Vector2 nextPoint;
-        
+
         for (int i = 0; i < randomLocations.Count - 1; i++)
         {
             currentPoint = randomLocations[i];
@@ -105,7 +132,7 @@ public class LightningBolt : MonoBehaviour
             // }
 
             //scale the perpendicular vector by the spread and add it to the points
-            convertedPoint +=  start + (perpendicular * Random.Range(minSpread, maxSpread));
+            convertedPoint += start + (perpendicular * Random.Range(minSpread, maxSpread));
 
             vectors.Add(convertedPoint);
         }
