@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Test Wave
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 2826262246340892885, guid: b3e1acf193c10e84bb769b1101a8471b, type: 3}
-  numberOfEnemies: 1
+  numberOfEnemies: 0
   spawnPoint: 0
   isClusteredSpawn: 0
   clusterRadius: 0
