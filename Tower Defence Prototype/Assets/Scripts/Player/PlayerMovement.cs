@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float colliderBuffer;
     private float colliderRadius;
     private bool canMove;
+    private Rigidbody2D rigidBody;
 
     public Vector2 Destination
     {
@@ -40,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         mouseInput = new MouseInput();
+        rigidBody = GetComponent<Rigidbody2D>();
         circleCollider = GetComponent<CircleCollider2D>();
         colliderRadius = circleCollider.radius;
     }
@@ -91,13 +93,25 @@ public class PlayerMovement : MonoBehaviour
                 destination = mousePosition;
             }
         }
+        FlipSprite(destination);
     }
     private void Update()
     {
-        // transform.position = Vector2.MoveTowards(transform.position, destination, movementSpeed * Time.deltaTime);
         if (Vector2.Distance(transform.position, destination) > 0.1f)
         {
             transform.position = Vector2.MoveTowards(transform.position, destination, movementSpeed * Time.deltaTime);
+        }
+    }
+    private void FlipSprite(Vector2 destination)
+    {
+        Vector2 direction = (destination - (Vector2)transform.position).normalized;
+        if (direction.x < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else
+        {
+            transform.localScale = new Vector3(1, 1, 1);
         }
     }
 }

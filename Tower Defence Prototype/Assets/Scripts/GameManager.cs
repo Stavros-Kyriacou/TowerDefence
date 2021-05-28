@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public bool fps;
     private void Start()
     {
-        Application.targetFrameRate = 60;
+        if (fps)
+        {
+            Application.targetFrameRate = 60;
+
+        }
     }
 }
