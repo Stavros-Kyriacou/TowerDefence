@@ -8,40 +8,20 @@ public class LightningStorm : GroundSpell
     [SerializeField] private LightningStorm myPrefab;
     [SerializeField] private ParticleSystem pulseParticle;
     [SerializeField] private GameObject boltPrefab;
+    [SerializeField] private GameObject radiusSprite;
 
     [Header("DamageOverTime")]
     [SerializeField] private float hitRate;
 
     [Header("Bolts")]
     [SerializeField] private int numBolts;
+    [SerializeField] private float endPointVariance;
 
-    private List<Vector2> endPoints;
     private List<GameObject> bolts;
+    private List<LightningBolt> lightningBolts;
+    private List<Vector2> endPoints;
 
 
-    private void Awake()
-    {
-        GetBoltEndPoints(numBolts, SpellRadius, transform.position);
-        Inititalise();
-
-        InvokeRepeating("DealDamage", 0f, hitRate);
-    }
-    private void Inititalise()
-    {
-        bolts = new List<GameObject>();
-
-        for (int i = 0; i < numBolts; i++)
-        {
-            GameObject bolt = Instantiate(boltPrefab);
-            bolt.transform.parent = transform;
-
-            LightningBolt lightningBolt = bolt.GetComponent<LightningBolt>();
-            lightningBolt.StartPoint = transform.position;
-            lightningBolt.EndPoint = endPoints[i];
-            bolt.SetActive(false);
-            bolts.Add(bolt);
-        }
-    }
     public override void CastSpell(Vector2 mousePos, Vector2 playerPos)
     {
         var mouseDirection = (mousePos - playerPos).normalized;
@@ -58,58 +38,74 @@ public class LightningStorm : GroundSpell
 
         LightningStorm lightningStorm = Instantiate(myPrefab, PlacementLocation, myPrefab.transform.rotation);
     }
+    private void Awake()
+    {
+        bolts = new List<GameObject>();
+        lightningBolts = new List<LightningBolt>();
+        radiusSprite.transform.localScale = new Vector3(1 * SpellRadius, 1 * SpellRadius, 1);
 
+        for (int i = 0; i < numBolts; i++)
+        {
+            //instantiate all of the bolts and add them to a list
+            GameObject bolt = Instantiate(boltPrefab);
+            bolt.transform.parent = transform;
+            bolts.Add(bolt);
 
-    private void DealDamage()
+            //get access to the lightning bolt components for later use
+            LightningBolt lightningBolt = bolt.GetComponent<LightningBolt>();
+            lightningBolts.Add(lightningBolt);
+        }
+
+        InvokeRepeating("Hit", 0f, hitRate);
+    }
+    private void Hit()
     {
         DrawBolts();
-
-        Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(transform.position, SpellRadius, TargetLayerMask);               //array of all enemies in the spell radius
-        var damageInstance = GetDamageInstance();                                                                                     //calculate damage for this particular spell hit
-
-        for (int i = 0; i < enemiesToDamage.Length; i++)                                                                            //apply damage to all hit enemies
-        {
-            var enemy = enemiesToDamage[i].GetComponent<EnemyHealth>();
-            enemy.TakeDamage(damageInstance);
-        }
+        DealDamage();
     }
     private void DrawBolts()
     {
-        GetBoltEndPoints(numBolts, SpellRadius, transform.position);
+        GetBoltEndPoints(numBolts, transform.position);
 
         for (int i = 0; i < bolts.Count; i++)
         {
-            LightningBolt lightningBolt = bolts[i].GetComponent<LightningBolt>();
-            // lightningBolt.StartPoint = transform.position;
-            lightningBolt.EndPoint = endPoints[i];
-        }
-        foreach (GameObject bolt in bolts)
-        {
-            bolt.SetActive(true);
-            LightningBolt lightningBolt = bolt.GetComponent<LightningBolt>();
-            lightningBolt.Activate();
+            //set the start and end points of each bolt and activate it
+            lightningBolts[i].StartPoint = transform.position;
+            lightningBolts[i].EndPoint = endPoints[i];
+            lightningBolts[i].Activate();
         }
     }
-    void GetBoltEndPoints(int points, float radius, Vector2 center)
+    void GetBoltEndPoints(int points, Vector2 center)
     {
         endPoints = new List<Vector2>();
-        endPoints.Clear();
 
         float slice = 2 * Mathf.PI / points;
 
         for (int i = 0; i < points; i++)
         {
             float angle = slice * i;
-            float newX = center.x + radius * Mathf.Cos(angle);
-            float newY = center.y + radius * Mathf.Sin(angle);
+            float newX = center.x + SpellRadius * Mathf.Cos(angle);
+            float newY = center.y + SpellRadius * Mathf.Sin(angle);
             Vector2 point = new Vector2(newX, newY);
-            point += Random.insideUnitCircle * 0.6f;
+
+            //add randomness to the end point value
+            point += Random.insideUnitCircle * endPointVariance;
             endPoints.Add(point);
         }
     }
+    private void DealDamage()
+    {
+        //draw circle collider, store all enemies hit by collider
+        Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(transform.position, SpellRadius, TargetLayerMask);
+        var damageInstance = GetDamageInstance();
 
-
-
+        for (int i = 0; i < enemiesToDamage.Length; i++)
+        {
+            //deal damage to all enemies hit
+            var enemy = enemiesToDamage[i].GetComponent<EnemyHealth>();
+            enemy.TakeDamage(damageInstance);
+        }
+    }
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

@@ -30,7 +30,10 @@ public class Line : MonoBehaviour
             pointB = value;
         }
     }
-
+    private void Awake()
+    {
+        DrawLine();
+    }
     public Line(Vector2 pointA, Vector2 pointB)
     {
         this.pointA = pointA;

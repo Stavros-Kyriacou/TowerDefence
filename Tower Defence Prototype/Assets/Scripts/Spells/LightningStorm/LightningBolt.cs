@@ -49,26 +49,18 @@ public class LightningBolt : MonoBehaviour
     {
         lines = new List<GameObject>();
 
-        //removes the previous lines
-        //NEED TO ADD OBJECT POOLING
         foreach (Transform child in gameObject.transform)
         {
             GameObject.Destroy(child.gameObject);
         }
-
-
-        // randomLocations = GetRandomPointsOnLine(start, end);
 
         //instatiates the lines, parents them to this object, all lines get stored in a list
         for (int i = 0; i < segments; i++)
         {
             GameObject line = Instantiate(linePrefab);
             line.transform.parent = transform;
-            // line.SetActive(false);
             lines.Add(line);
         }
-        // Activate();
-        // InvokeRepeating("Activate", 0f, .1f);
     }
     public void Activate()
     {
@@ -128,12 +120,6 @@ public class LightningBolt : MonoBehaviour
             {
                 perpendicular = -perpendicular;
             }
-
-            // if (Random.Range(0,2) == 0)
-            // {
-            //     //50% to flip the perpendicular right for variation in the jagged pattern
-            //     perpendicular = -perpendicular;
-            // }
 
             //scale the perpendicular vector by the spread and add it to the points
             convertedPoint += start + (perpendicular * Random.Range(minSpread, maxSpread));
