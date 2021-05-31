@@ -26,10 +26,6 @@ public class LightningStorm : GroundSpell
         Inititalise();
         InvokeRepeating("DealDamage", 0f, hitRate);
     }
-    private void Start()
-    {
-
-    }
     private void Inititalise()
     {
         bolts = new List<GameObject>();
@@ -76,6 +72,7 @@ public class LightningStorm : GroundSpell
             float newX = center.x + radius * Mathf.Cos(angle);
             float newY = center.y + radius * Mathf.Sin(angle);
             Vector2 point = new Vector2(newX, newY);
+            point += Random.insideUnitCircle * 0.6f;
             endPoints.Add(point);
         }
     }

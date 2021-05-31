@@ -39,7 +39,6 @@ public class LightningBolt : MonoBehaviour
     }
     private void Awake()
     {
-        // InvokeRepeating("Initialise", 0f, .05f);
         Initialise();
     }
     private void OnEnable() {
@@ -80,10 +79,15 @@ public class LightningBolt : MonoBehaviour
 
         for (int i = 0; i < randomLocations.Count - 1; i++)
         {
+            //get the current point and next point
             currentPoint = randomLocations[i];
             nextPoint = randomLocations[i + 1];
+
+            //get the line component
             Line lineComponent = lines[i].GetComponent<Line>();
             lineComponent.GetComponentInChildren<SpriteRenderer>().color = colour;
+
+            //set its start and end points then draw it
             lineComponent.PointA = currentPoint;
             lineComponent.PointB = nextPoint;
             lineComponent.DrawLine();

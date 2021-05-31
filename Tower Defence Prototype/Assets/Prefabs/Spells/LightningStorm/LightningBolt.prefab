@@ -48,6 +48,6 @@ MonoBehaviour:
   colour: {r: 0.9772253, g: 1, b: 0, a: 1}
   startPoint: {x: 0, y: 0}
   endPoint: {x: 0, y: 0}
-  minSpread: 0.1
-  maxSpread: 0.3
+  minSpread: 0.05
+  maxSpread: 0.15
   updateRate: 0.08
