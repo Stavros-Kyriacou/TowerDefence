@@ -22,8 +22,8 @@ public class LightningStorm : GroundSpell
     private void Awake()
     {
         GetBoltEndPoints(numBolts, SpellRadius, transform.position);
-
         Inititalise();
+
         InvokeRepeating("DealDamage", 0f, hitRate);
     }
     private void Inititalise()
@@ -42,8 +42,6 @@ public class LightningStorm : GroundSpell
             bolts.Add(bolt);
         }
     }
-
-
     public override void CastSpell(Vector2 mousePos, Vector2 playerPos)
     {
         var mouseDirection = (mousePos - playerPos).normalized;
@@ -60,9 +58,42 @@ public class LightningStorm : GroundSpell
 
         LightningStorm lightningStorm = Instantiate(myPrefab, PlacementLocation, myPrefab.transform.rotation);
     }
+
+
+    private void DealDamage()
+    {
+        DrawBolts();
+
+        Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(transform.position, SpellRadius, TargetLayerMask);               //array of all enemies in the spell radius
+        var damageInstance = GetDamageInstance();                                                                                     //calculate damage for this particular spell hit
+
+        for (int i = 0; i < enemiesToDamage.Length; i++)                                                                            //apply damage to all hit enemies
+        {
+            var enemy = enemiesToDamage[i].GetComponent<EnemyHealth>();
+            enemy.TakeDamage(damageInstance);
+        }
+    }
+    private void DrawBolts()
+    {
+        GetBoltEndPoints(numBolts, SpellRadius, transform.position);
+
+        for (int i = 0; i < bolts.Count; i++)
+        {
+            LightningBolt lightningBolt = bolts[i].GetComponent<LightningBolt>();
+            // lightningBolt.StartPoint = transform.position;
+            lightningBolt.EndPoint = endPoints[i];
+        }
+        foreach (GameObject bolt in bolts)
+        {
+            bolt.SetActive(true);
+            LightningBolt lightningBolt = bolt.GetComponent<LightningBolt>();
+            lightningBolt.Activate();
+        }
+    }
     void GetBoltEndPoints(int points, float radius, Vector2 center)
     {
         endPoints = new List<Vector2>();
+        endPoints.Clear();
 
         float slice = 2 * Mathf.PI / points;
 
@@ -76,25 +107,6 @@ public class LightningStorm : GroundSpell
             endPoints.Add(point);
         }
     }
-    private void DealDamage()
-    {
-        // pulseParticle.Play();
-        foreach (GameObject bolt in bolts)
-        {
-            bolt.SetActive(true);
-            LightningBolt lightningBolt = bolt.GetComponent<LightningBolt>();
-            lightningBolt.Activate();
-        }
-        Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(transform.position, SpellRadius, TargetLayerMask);               //array of all enemies in the spell radius
-        var damageInstance = GetDamageInstance();                                                                                     //calculate damage for this particular spell hit
-
-        for (int i = 0; i < enemiesToDamage.Length; i++)                                                                            //apply damage to all hit enemies
-        {
-            var enemy = enemiesToDamage[i].GetComponent<EnemyHealth>();
-            enemy.TakeDamage(damageInstance);
-        }
-    }
-
 
 
 
