@@ -7,25 +7,20 @@ public class LightningStorm : GroundSpell
     [Header("Lightning Storm")]
     [SerializeField] private LightningStorm myPrefab;
     [SerializeField] private ParticleSystem pulseParticle;
-    [SerializeField] private LightningBolt boltPrefab;
+    [SerializeField] private GameObject boltPrefab;
+    [SerializeField] private GameObject radiusSprite;
 
     [Header("DamageOverTime")]
     [SerializeField] private float hitRate;
 
     [Header("Bolts")]
     [SerializeField] private int numBolts;
+    [SerializeField] private float endPointVariance;
 
-    private List<Vector2> endPositions;
+    private List<GameObject> bolts;
+    private List<LightningBolt> lightningBolts;
+    private List<Vector2> endPoints;
 
-
-    private void Awake()
-    {
-        InvokeRepeating("DealDamage", 0f, hitRate);
-    }
-
-    private void Start() {
-        DrawCirclePoints(numBolts, SpellRadius, transform.position);
-    }
 
     public override void CastSpell(Vector2 mousePos, Vector2 playerPos)
     {
@@ -43,37 +38,74 @@ public class LightningStorm : GroundSpell
 
         LightningStorm lightningStorm = Instantiate(myPrefab, PlacementLocation, myPrefab.transform.rotation);
     }
-    void DrawCirclePoints(int points, float radius, Vector2 center)
+    private void Awake()
     {
-        endPositions = new List<Vector2>();
+        bolts = new List<GameObject>();
+        lightningBolts = new List<LightningBolt>();
+        radiusSprite.transform.localScale = new Vector3(1 * SpellRadius, 1 * SpellRadius, 1);
+
+        for (int i = 0; i < numBolts; i++)
+        {
+            //instantiate all of the bolts and add them to a list
+            GameObject bolt = Instantiate(boltPrefab);
+            bolt.transform.parent = transform;
+            bolts.Add(bolt);
+
+            //get access to the lightning bolt components for later use
+            LightningBolt lightningBolt = bolt.GetComponent<LightningBolt>();
+            lightningBolts.Add(lightningBolt);
+        }
+
+        InvokeRepeating("Hit", 0f, hitRate);
+    }
+    private void Hit()
+    {
+        DrawBolts();
+        DealDamage();
+    }
+    private void DrawBolts()
+    {
+        GetBoltEndPoints(numBolts, transform.position);
+
+        for (int i = 0; i < bolts.Count; i++)
+        {
+            //set the start and end points of each bolt and activate it
+            lightningBolts[i].StartPoint = transform.position;
+            lightningBolts[i].EndPoint = endPoints[i];
+            lightningBolts[i].Activate();
+        }
+    }
+    void GetBoltEndPoints(int points, Vector2 center)
+    {
+        endPoints = new List<Vector2>();
 
         float slice = 2 * Mathf.PI / points;
 
         for (int i = 0; i < points; i++)
         {
             float angle = slice * i;
-            float newX = center.x + radius * Mathf.Cos(angle);
-            float newY = center.y + radius * Mathf.Sin(angle);
+            float newX = center.x + SpellRadius * Mathf.Cos(angle);
+            float newY = center.y + SpellRadius * Mathf.Sin(angle);
             Vector2 point = new Vector2(newX, newY);
-            endPositions.Add(point);
+
+            //add randomness to the end point value
+            point += Random.insideUnitCircle * endPointVariance;
+            endPoints.Add(point);
         }
     }
     private void DealDamage()
     {
-        pulseParticle.Play();
-        Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(transform.position, SpellRadius, TargetLayerMask);               //array of all enemies in the spell radius
-        var damageInstance = GetDamageInstance();                                                                                     //calculate damage for this particular spell hit
+        //draw circle collider, store all enemies hit by collider
+        Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(transform.position, SpellRadius, TargetLayerMask);
+        var damageInstance = GetDamageInstance();
 
-        for (int i = 0; i < enemiesToDamage.Length; i++)                                                                            //apply damage to all hit enemies
+        for (int i = 0; i < enemiesToDamage.Length; i++)
         {
+            //deal damage to all enemies hit
             var enemy = enemiesToDamage[i].GetComponent<EnemyHealth>();
             enemy.TakeDamage(damageInstance);
         }
     }
-
-
-
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
