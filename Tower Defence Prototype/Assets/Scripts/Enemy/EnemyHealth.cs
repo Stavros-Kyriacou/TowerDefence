@@ -21,14 +21,6 @@ public class EnemyHealth : MonoBehaviour
     [Header("UI")]
     [SerializeField] private Image healthBar;
 
-    public int MaterialDrop
-    {
-        get
-        {
-            return UnityEngine.Random.Range(minMaterialDrop, maxMaterialDrop + 1);
-        }
-    }
-
     private void Awake()
     {
         buildingManager = BuildingManager.Instance;

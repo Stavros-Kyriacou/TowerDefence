@@ -10,10 +10,13 @@ public class BuildingManager : MonoBehaviour
     private PlayerMovement playerMovement;
     private MouseInput mouseInput;
     private KeyboardInput keyInput;
+    [SerializeField] private Camera mainCam;
     private bool canBuild;
 
     [Header("Tilemap")]
-    [SerializeField] private Tilemap tilemap;
+    [SerializeField] private Tilemap wallTileMap;
+    [SerializeField] private Tilemap highlightTileMap;
+    [SerializeField] private Tile highlightTile;
 
     [Header("Turrets")]
     [SerializeField] private List<GameObject> turretPrefabs;
@@ -26,6 +29,9 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] private int startMaterials;
     private int currentMaterials;
     private int selectedTurretCost;
+
+    Vector3Int currentGridPos;
+    Vector3Int previousGridPos;
 
     public int CurrentMaterials
     {
@@ -67,6 +73,46 @@ public class BuildingManager : MonoBehaviour
         mouseInput.Mouse.MouseClick.performed += _ => MouseClick();
         keyInput.Keyboard.Turret1.performed += _ => Turret1();
     }
+    private void Update() 
+    {
+        if (canBuild)
+        {
+            //if walls tile map has a tile at grid position
+                //set highlight tile map to highlighted tile
+            
+            //if current highlighted tile is at different position to previous
+                //set previous tile to null
+
+            Vector2 mousePosition = mouseInput.Mouse.MousePosition.ReadValue<Vector2>();
+            mousePosition = mainCam.ScreenToWorldPoint(mousePosition);
+            currentGridPos = wallTileMap.WorldToCell(mousePosition);
+
+            if (previousGridPos != currentGridPos && wallTileMap.HasTile(currentGridPos))
+            {
+                highlightTileMap.SetTile(previousGridPos, null);
+                highlightTileMap.SetTile(currentGridPos, highlightTile);
+                previousGridPos = currentGridPos;
+
+                if (!wallTileMap.HasTile(wallTileMap.WorldToCell(mousePosition)))
+                {   
+                    highlightTileMap.SetTile(previousGridPos, null);
+                }
+            }
+            else if (!wallTileMap.HasTile(currentGridPos))
+            {
+                //if the current mouse position is different to the currentGridPos and the wallTileMap does not have a tile
+                // Debug.Log("No wall tile at current posistion");
+                highlightTileMap.SetTile(previousGridPos, null);
+            }
+            else if (wallTileMap.WorldToCell(mousePosition) != previousGridPos)
+            {
+                Debug.Log("Mouse pos is different to currentGridPos");
+            }
+
+            // Debug.Log("Current pos: " + currentGridPos + " || Previous pos: " + previousGridPos);
+
+        }
+    }
     public void AddMaterials(int amount)
     {
         currentMaterials += amount;
@@ -79,16 +125,15 @@ public class BuildingManager : MonoBehaviour
     }
     private void MouseClick()
     {
-        //check if turret != null
-        //check if you have enough mats
         if (selectedTurret != null && selectedTurretCost <= currentMaterials)
         {
             Vector2 mousePosition = mouseInput.Mouse.MousePosition.ReadValue<Vector2>();
-            mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-            Vector3Int gridPosition = tilemap.WorldToCell(mousePosition);
+            mousePosition = mainCam.ScreenToWorldPoint(mousePosition);
+            Vector3Int gridPosition = wallTileMap.WorldToCell(mousePosition);
 
-            if (tilemap.HasTile(gridPosition) && canBuild)
+            if (wallTileMap.HasTile(gridPosition) && canBuild)
             {
+                highlightTileMap.SetTile(currentGridPos, null);
                 playerMovement.CanMove = false;
                 playerMovement.Destination = playerMovement.transform.position;
                 SubtractMaterials(selectedTurretCost);
