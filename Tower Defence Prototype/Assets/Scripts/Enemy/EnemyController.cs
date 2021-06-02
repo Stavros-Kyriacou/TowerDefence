@@ -5,13 +5,6 @@ using Pathfinding;
 
 public class EnemyController : MonoBehaviour
 {
-    enum State
-    {
-        WalkToObjective,
-        ChasingPlayer,
-        Attacking
-    }
-    private State state;
 
     void Start()
     {

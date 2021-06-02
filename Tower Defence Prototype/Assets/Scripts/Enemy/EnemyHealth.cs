@@ -6,9 +6,14 @@ using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
+    private BuildingManager buildingManager;
+
     [Header("Stats")]
     [SerializeField] private int maxHealth;
     private float currentHealth;
+    [SerializeField] private int minMaterialDrop;
+    [SerializeField] private int maxMaterialDrop;
+    private int materialDrop;
 
     [Header("Effects")]
     [SerializeField] private GameObject deathEffect;
@@ -16,6 +21,18 @@ public class EnemyHealth : MonoBehaviour
     [Header("UI")]
     [SerializeField] private Image healthBar;
 
+    public int MaterialDrop
+    {
+        get
+        {
+            return UnityEngine.Random.Range(minMaterialDrop, maxMaterialDrop + 1);
+        }
+    }
+
+    private void Awake()
+    {
+        buildingManager = BuildingManager.Instance;
+    }
     private void Start()
     {
         currentHealth = maxHealth;
@@ -43,5 +60,6 @@ public class EnemyHealth : MonoBehaviour
             Debug.LogError("Death effect not set on enemy Name: " + gameObject.name);
             Destroy(gameObject);
         }
+        BuildingManager.Instance.AddMaterials(UnityEngine.Random.Range(minMaterialDrop, maxMaterialDrop + 1));
     }
 }

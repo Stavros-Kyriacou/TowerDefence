@@ -12,8 +12,14 @@ public class Turret : MonoBehaviour
 
     [Header("Projectile")]
     [SerializeField] private GameObject projectilePrefab;
-    public int Cost { get; set; }
-    public float AttackRange 
+    public int Cost
+    {
+        get
+        {
+            return cost;
+        }
+    }
+    public float AttackRange
     {
         get
         {
