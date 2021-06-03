@@ -7,6 +7,7 @@ public class SpellBase : MonoBehaviour
     [Header("Damage")]
     [SerializeField] private int minDamage;
     [SerializeField] private int maxDamage;
+    private string damageSource = "Player";
 
     [Header("Cost")]
     [SerializeField] private int manaCost;
@@ -22,7 +23,7 @@ public class SpellBase : MonoBehaviour
     [SerializeField] private bool playAudio;
     [SerializeField] private AudioClip castSFX;
     [SerializeField] private AudioClip hitSFX;
-   
+
     public int ManaCost
     {
         get
@@ -70,6 +71,13 @@ public class SpellBase : MonoBehaviour
         get
         {
             return hitSFX;
+        }
+    }
+    public string DamageSource
+    {
+        get
+        {
+            return damageSource;
         }
     }
 

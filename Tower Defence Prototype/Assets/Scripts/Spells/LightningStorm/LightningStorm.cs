@@ -103,7 +103,7 @@ public class LightningStorm : GroundSpell
         {
             //deal damage to all enemies hit
             var enemy = enemiesToDamage[i].GetComponent<EnemyHealth>();
-            enemy.TakeDamage(damageInstance);
+            enemy.TakeDamage(damageInstance, DamageSource);
         }
     }
     private void OnDrawGizmosSelected()

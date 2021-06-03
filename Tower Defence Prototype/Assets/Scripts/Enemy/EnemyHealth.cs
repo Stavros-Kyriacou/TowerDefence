@@ -21,6 +21,8 @@ public class EnemyHealth : MonoBehaviour
     [Header("UI")]
     [SerializeField] private Image healthBar;
 
+    private string lastDamageSource;
+
     private void Awake()
     {
         buildingManager = BuildingManager.Instance;
@@ -29,8 +31,9 @@ public class EnemyHealth : MonoBehaviour
     {
         currentHealth = maxHealth;
     }
-    public void TakeDamage(float damageToTake)
+    public void TakeDamage(float damageToTake, string source)
     {
+        lastDamageSource = source;
         currentHealth -= damageToTake;
 
         healthBar.fillAmount = currentHealth / maxHealth;
@@ -42,7 +45,7 @@ public class EnemyHealth : MonoBehaviour
     }
     private void Die()
     {
-        if(deathEffect != null)
+        if (deathEffect != null)
         {
             Instantiate(deathEffect, transform.position, transform.rotation);
             Destroy(gameObject);
@@ -52,6 +55,9 @@ public class EnemyHealth : MonoBehaviour
             Debug.LogError("Death effect not set on enemy Name: " + gameObject.name);
             Destroy(gameObject);
         }
-        BuildingManager.Instance.AddMaterials(UnityEngine.Random.Range(minMaterialDrop, maxMaterialDrop + 1));
+        if (lastDamageSource != "Crystal")
+        {
+            BuildingManager.Instance.AddMaterials(UnityEngine.Random.Range(minMaterialDrop, maxMaterialDrop + 1));
+        }
     }
 }
