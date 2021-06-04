@@ -10,7 +10,7 @@ public class KillZone : MonoBehaviour
         if (other.tag == "Enemy")
         {
             var enemy = other.GetComponent<EnemyHealth>();
-            enemy.TakeDamage(1000000, damageSource);
+            enemy.Despawn();
         }
     }
 }

@@ -60,7 +60,7 @@ public class Fireball : ProjectileSpell
         for (int i = 0; i < enemiesToDamage.Length; i++)                                                                        //apply damage to all hit enemies
         {
             var enemy = enemiesToDamage[i].GetComponent<EnemyHealth>();
-            enemy.TakeDamage(damageInstance, DamageSource);
+            enemy.TakeDamage(damageInstance);
         }
 
         Destroy(gameObject);

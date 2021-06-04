@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyHealth : MonoBehaviour
+public class EnemyHealth : MonoBehaviour, IDamageable
 {
     private BuildingManager buildingManager;
 
@@ -31,9 +31,8 @@ public class EnemyHealth : MonoBehaviour
     {
         currentHealth = maxHealth;
     }
-    public void TakeDamage(float damageToTake, string source)
+    public void TakeDamage(int damageToTake)
     {
-        lastDamageSource = source;
         currentHealth -= damageToTake;
 
         healthBar.fillAmount = currentHealth / maxHealth;
@@ -55,9 +54,10 @@ public class EnemyHealth : MonoBehaviour
             Debug.LogError("Death effect not set on enemy Name: " + gameObject.name);
             Destroy(gameObject);
         }
-        if (lastDamageSource != "Crystal")
-        {
             BuildingManager.Instance.AddMaterials(UnityEngine.Random.Range(minMaterialDrop, maxMaterialDrop + 1));
-        }
+    }
+    public void Despawn()
+    {
+        Destroy(gameObject);
     }
 }

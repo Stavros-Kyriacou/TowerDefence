@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 2826262246340892885, guid: b3e1acf193c10e84bb769b1101a8471b, type: 3}
   numberOfEnemies: 10
-  spawnPoint: 2
-  isClusteredSpawn: 1
-  clusterRadius: 2
-  timeBetweenSpawns: 0
+  spawnPoint: 1
+  isClusteredSpawn: 0
+  clusterRadius: 0
+  timeBetweenSpawns: 0.5
   delayAfterWaveSpawned: 0
   simultaneousWaves: []

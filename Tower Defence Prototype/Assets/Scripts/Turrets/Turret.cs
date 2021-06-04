@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
+using TMPro;
 
 public class Turret : MonoBehaviour
 {
@@ -15,10 +15,11 @@ public class Turret : MonoBehaviour
     [SerializeField] private float targetUpdateRate;
     [SerializeField] private bool tracksTarget;
     [SerializeField] private float rotationSpeed;
-    private Transform target;
+    [SerializeField] private Transform target;
 
     [Header("Projectile")]
-    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private TurretProjectile projectilePrefab;
+    [SerializeField] private Transform firePoint;
     [SerializeField] private int minDamage;
     [SerializeField] private int maxDamage;
 
@@ -28,13 +29,11 @@ public class Turret : MonoBehaviour
 
     private float shootCoolDown = 0f;
 
-    public int Cost
-    {
-        get
-        {
-            return cost;
-        }
-    }
+    public int Cost { get { return cost; } }
+    public TurretProjectile ProjectilePrefab { get { return projectilePrefab; } }
+    public Transform FirePoint { get { return firePoint; } }
+    public Transform Target { get { return target; } }
+
 
     private void Start()
     {
@@ -91,8 +90,8 @@ public class Turret : MonoBehaviour
     public virtual void Shoot()
     {
         Debug.LogError("Override Shoot method has not been created for turret");
-    }   
-    private int GetDamageInstance()
+    }
+    public int GetDamageInstance()
     {
         return Random.Range(minDamage, maxDamage + 1);
     }

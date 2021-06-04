@@ -30,6 +30,9 @@ public class BuildingManager : MonoBehaviour
     private int currentMaterials;
     private int selectedTurretCost;
 
+    [Header("HUD")]
+    [SerializeField] private List<TextMeshProUGUI> turretCosts;
+
     Vector3Int currentGridPos;
     Vector3Int previousGridPos;
 
@@ -66,6 +69,11 @@ public class BuildingManager : MonoBehaviour
         {
             Turret t = go.GetComponent<Turret>();
             turrets.Add(t);
+        }
+
+        for (int i = 0; i < turretCosts.Count; i++)
+        {
+            turretCosts[i].text = turretPrefabs[i].GetComponent<Turret>().Cost.ToString();
         }
     }
     private void Start()

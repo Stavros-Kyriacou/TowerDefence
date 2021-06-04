@@ -85,7 +85,7 @@ public class Player : MonoBehaviour, IDamageable
             manaBar.fillAmount = currentMana / maxMana;
         }
     }
-    public void TakeDamage(float damageAmount)
+    public void TakeDamage(int damageAmount)
     {
         currentHealth -= damageAmount;
 
