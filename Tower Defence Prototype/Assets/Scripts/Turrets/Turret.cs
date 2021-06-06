@@ -18,7 +18,7 @@ public class Turret : MonoBehaviour
     [SerializeField] private Transform target;
 
     [Header("Projectile")]
-    [SerializeField] private TurretProjectile projectilePrefab;
+    [SerializeField] private TrackingProjectile projectilePrefab;
     [SerializeField] private Transform firePoint;
     [SerializeField] private int minDamage;
     [SerializeField] private int maxDamage;
@@ -30,7 +30,7 @@ public class Turret : MonoBehaviour
     private float shootCoolDown = 0f;
 
     public int Cost { get { return cost; } }
-    public TurretProjectile ProjectilePrefab { get { return projectilePrefab; } }
+    public TrackingProjectile ProjectilePrefab { get { return projectilePrefab; } }
     public Transform FirePoint { get { return firePoint; } }
     public Transform Target { get { return target; } }
 

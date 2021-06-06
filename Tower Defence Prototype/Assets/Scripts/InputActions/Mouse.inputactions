@@ -22,12 +22,12 @@
                     "interactions": ""
                 },
                 {
-                    "name": "MouseHold",
+                    "name": "CancelBuild",
                     "type": "Button",
-                    "id": "2bb69366-1fdf-45ea-ac9b-1a2e700d9a31",
+                    "id": "34ab4717-3c20-4aac-9618-9d45fc7464e0",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold"
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -55,12 +55,12 @@
                 },
                 {
                     "name": "",
-                    "id": "8e2ed5c3-0475-4a52-a052-5f194fdc3c71",
-                    "path": "<Mouse>/leftButton",
+                    "id": "d4704193-00ef-4c8d-b59c-46e5ba1c27eb",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MouseHold",
+                    "action": "CancelBuild",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

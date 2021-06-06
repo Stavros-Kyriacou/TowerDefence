@@ -13,11 +13,10 @@ MonoBehaviour:
   m_Name: Test Wave
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 2826262246340892885, guid: b3e1acf193c10e84bb769b1101a8471b, type: 3}
-  numberOfEnemies: 10
+  numberOfEnemies: 1
   spawnPoint: 0
   isClusteredSpawn: 0
   clusterRadius: 0
-  timeBetweenSpawns: 0.5
+  timeBetweenSpawns: 1.5
   delayAfterWaveSpawned: 0
-  simultaneousWaves:
-  - {fileID: 11400000, guid: aa8be21c3b5a304478507eef78aae6d0, type: 2}
+  simultaneousWaves: []

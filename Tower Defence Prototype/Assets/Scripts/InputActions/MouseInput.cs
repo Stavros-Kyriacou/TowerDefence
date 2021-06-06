@@ -35,12 +35,12 @@ public class @MouseInput : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""MouseHold"",
+                    ""name"": ""CancelBuild"",
                     ""type"": ""Button"",
-                    ""id"": ""2bb69366-1fdf-45ea-ac9b-1a2e700d9a31"",
+                    ""id"": ""34ab4717-3c20-4aac-9618-9d45fc7464e0"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold""
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -68,12 +68,12 @@ public class @MouseInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""8e2ed5c3-0475-4a52-a052-5f194fdc3c71"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""id"": ""d4704193-00ef-4c8d-b59c-46e5ba1c27eb"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MouseHold"",
+                    ""action"": ""CancelBuild"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -86,7 +86,7 @@ public class @MouseInput : IInputActionCollection, IDisposable
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
         m_Mouse_MouseClick = m_Mouse.FindAction("MouseClick", throwIfNotFound: true);
         m_Mouse_MousePosition = m_Mouse.FindAction("MousePosition", throwIfNotFound: true);
-        m_Mouse_MouseHold = m_Mouse.FindAction("MouseHold", throwIfNotFound: true);
+        m_Mouse_CancelBuild = m_Mouse.FindAction("CancelBuild", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -138,14 +138,14 @@ public class @MouseInput : IInputActionCollection, IDisposable
     private IMouseActions m_MouseActionsCallbackInterface;
     private readonly InputAction m_Mouse_MouseClick;
     private readonly InputAction m_Mouse_MousePosition;
-    private readonly InputAction m_Mouse_MouseHold;
+    private readonly InputAction m_Mouse_CancelBuild;
     public struct MouseActions
     {
         private @MouseInput m_Wrapper;
         public MouseActions(@MouseInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @MouseClick => m_Wrapper.m_Mouse_MouseClick;
         public InputAction @MousePosition => m_Wrapper.m_Mouse_MousePosition;
-        public InputAction @MouseHold => m_Wrapper.m_Mouse_MouseHold;
+        public InputAction @CancelBuild => m_Wrapper.m_Mouse_CancelBuild;
         public InputActionMap Get() { return m_Wrapper.m_Mouse; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -161,9 +161,9 @@ public class @MouseInput : IInputActionCollection, IDisposable
                 @MousePosition.started -= m_Wrapper.m_MouseActionsCallbackInterface.OnMousePosition;
                 @MousePosition.performed -= m_Wrapper.m_MouseActionsCallbackInterface.OnMousePosition;
                 @MousePosition.canceled -= m_Wrapper.m_MouseActionsCallbackInterface.OnMousePosition;
-                @MouseHold.started -= m_Wrapper.m_MouseActionsCallbackInterface.OnMouseHold;
-                @MouseHold.performed -= m_Wrapper.m_MouseActionsCallbackInterface.OnMouseHold;
-                @MouseHold.canceled -= m_Wrapper.m_MouseActionsCallbackInterface.OnMouseHold;
+                @CancelBuild.started -= m_Wrapper.m_MouseActionsCallbackInterface.OnCancelBuild;
+                @CancelBuild.performed -= m_Wrapper.m_MouseActionsCallbackInterface.OnCancelBuild;
+                @CancelBuild.canceled -= m_Wrapper.m_MouseActionsCallbackInterface.OnCancelBuild;
             }
             m_Wrapper.m_MouseActionsCallbackInterface = instance;
             if (instance != null)
@@ -174,9 +174,9 @@ public class @MouseInput : IInputActionCollection, IDisposable
                 @MousePosition.started += instance.OnMousePosition;
                 @MousePosition.performed += instance.OnMousePosition;
                 @MousePosition.canceled += instance.OnMousePosition;
-                @MouseHold.started += instance.OnMouseHold;
-                @MouseHold.performed += instance.OnMouseHold;
-                @MouseHold.canceled += instance.OnMouseHold;
+                @CancelBuild.started += instance.OnCancelBuild;
+                @CancelBuild.performed += instance.OnCancelBuild;
+                @CancelBuild.canceled += instance.OnCancelBuild;
             }
         }
     }
@@ -185,6 +185,6 @@ public class @MouseInput : IInputActionCollection, IDisposable
     {
         void OnMouseClick(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
-        void OnMouseHold(InputAction.CallbackContext context);
+        void OnCancelBuild(InputAction.CallbackContext context);
     }
 }

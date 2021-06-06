@@ -6,7 +6,7 @@ public class CannonTurret : Turret
 {
     public override void Shoot()
     {
-        TurretProjectile cannonBall = Instantiate(ProjectilePrefab, FirePoint.transform.position, Quaternion.identity) as TurretProjectile;
+        TrackingProjectile cannonBall = Instantiate(ProjectilePrefab, FirePoint.transform.position, Quaternion.identity) as TrackingProjectile;
         cannonBall.Damage = GetDamageInstance();
         cannonBall.Target = Target.transform;
     }

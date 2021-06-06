@@ -4613,7 +4613,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -27.2, y: -40}
+  m_AnchoredPosition: {x: -31.9, y: -39.6}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1314387029
@@ -4636,7 +4636,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 100
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -101599,10 +101599,14 @@ MonoBehaviour:
   turretPrefabs:
   - {fileID: 7878106922371658683, guid: fd636493b0249a04b9fa72268615edd1, type: 3}
   turretOffset: {x: 0.5, y: 0.5, z: 0}
+  turretLayerMask:
+    serializedVersion: 2
+    m_Bits: 2048
   materialsText: {fileID: 1314387029}
-  startMaterials: 100
+  startMaterials: 1000
   turretCosts:
   - {fileID: 179410192}
+  hit: []
 --- !u!4 &1898810294
 Transform:
   m_ObjectHideFlags: 0
@@ -101646,7 +101650,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c1267be17738c747a54b887fcdf043c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fps: 0
+  fps: 1
 --- !u!4 &1941629355
 Transform:
   m_ObjectHideFlags: 0
@@ -101692,7 +101696,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waveConfigs:
   - {fileID: 11400000, guid: e3ce4bafb04a1c147b2515be903d5a6d, type: 2}
-  - {fileID: 11400000, guid: a8275cac18f9c0a4e89f2c4f0160ad05, type: 2}
   isLooping: 1
 --- !u!4 &1947896577
 Transform:
