@@ -7,6 +7,7 @@ public class FireballProjectile : TrackingProjectile
     [Header("Fireball")]
     [SerializeField] private float explosionRadius;
     [SerializeField] private LayerMask targetLayerMask;
+
     public override void Hit()
     {
         Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(transform.position, explosionRadius, targetLayerMask);
@@ -16,5 +17,7 @@ public class FireballProjectile : TrackingProjectile
             IDamageable damageable = enemy.GetComponent<IDamageable>();
             damageable.TakeDamage(Damage);
         }
+        Destroy(gameObject);    
     }
+    
 }

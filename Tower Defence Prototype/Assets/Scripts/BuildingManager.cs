@@ -212,7 +212,7 @@ public class BuildingManager : MonoBehaviour
         }
         Debug.Log("Select turret 1");
         canBuild = true;
-        selectedTurret = turretPrefabs[0];
-        selectedTurretCost = turrets[0].Cost;
+        selectedTurret = turretPrefabs[type];
+        selectedTurretCost = turrets[type].Cost;
     }
 }

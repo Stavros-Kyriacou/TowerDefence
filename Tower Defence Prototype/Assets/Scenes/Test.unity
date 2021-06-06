@@ -101598,6 +101598,7 @@ MonoBehaviour:
   highlightTile: {fileID: 11400000, guid: 7a1d84f9b5b0f8345ad6b166cad47cd2, type: 2}
   turretPrefabs:
   - {fileID: 7878106922371658683, guid: fd636493b0249a04b9fa72268615edd1, type: 3}
+  - {fileID: 7163081921687826331, guid: 392a4e53bd6978649b7696d2ff1a2558, type: 3}
   turretOffset: {x: 0.5, y: 0.5, z: 0}
   turretLayerMask:
     serializedVersion: 2

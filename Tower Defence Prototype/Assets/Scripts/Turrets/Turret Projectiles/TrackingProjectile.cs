@@ -7,7 +7,7 @@ public class TrackingProjectile : MonoBehaviour
     [SerializeField] private float travelSpeed;
     private int damage;
     private Transform target;
-    public Vector3 destination;
+    private Vector3 destination;
 
 
     public int Damage { get { return damage; } set { damage = value; } }
@@ -22,6 +22,7 @@ public class TrackingProjectile : MonoBehaviour
     }
     private void Update()
     {
+        //****Need to add rotation tracking of projectile****
         if (target == null)
         {
             Destroy(gameObject);

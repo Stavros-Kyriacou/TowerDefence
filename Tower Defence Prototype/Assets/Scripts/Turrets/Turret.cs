@@ -15,7 +15,7 @@ public class Turret : MonoBehaviour
     [SerializeField] private float targetUpdateRate;
     [SerializeField] private bool tracksTarget;
     [SerializeField] private float rotationSpeed;
-    [SerializeField] private Transform target;
+    private Transform target;
 
     [Header("Projectile")]
     [SerializeField] private TrackingProjectile projectilePrefab;

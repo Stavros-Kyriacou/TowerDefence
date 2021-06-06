@@ -40,6 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7163081921687826329}
   - component: {fileID: 4561858792518420093}
+  - component: {fileID: 1766442065009498234}
   m_Layer: 0
   m_Name: FireballTurret
   m_TagString: Untagged
@@ -99,8 +100,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1005653569
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 816c883b0ac37374384e6a35d1f6cb0b, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
@@ -113,3 +114,29 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1766442065009498234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7163081921687826331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 915579e2a2ce1eb4bb11c17f083ff038, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cost: 50
+  attackRange: 4
+  attacksPerSecond: 1.5
+  targetLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
+  targetUpdateRate: 0.5
+  tracksTarget: 1
+  rotationSpeed: 10
+  projectilePrefab: {fileID: 1326095029886052711, guid: 661216f12af824c468636957f9dd63ec, type: 3}
+  firePoint: {fileID: 8970543277127559207}
+  minDamage: 20
+  maxDamage: 30
+  shootParticle: {fileID: 0}

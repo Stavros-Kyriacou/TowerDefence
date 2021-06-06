@@ -17,6 +17,6 @@ MonoBehaviour:
   spawnPoint: 0
   isClusteredSpawn: 0
   clusterRadius: 0
-  timeBetweenSpawns: 1.5
+  timeBetweenSpawns: 0.5
   delayAfterWaveSpawned: 0
   simultaneousWaves: []
