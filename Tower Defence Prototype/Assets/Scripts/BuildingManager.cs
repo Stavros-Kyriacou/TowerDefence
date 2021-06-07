@@ -7,10 +7,10 @@ using TMPro;
 public class BuildingManager : MonoBehaviour
 {
     public static BuildingManager Instance;
-    private PlayerMovement playerMovement;
+    [SerializeField] private PlayerMovement playerMovement;
     private MouseInput mouseInput;
     private KeyboardInput keyInput;
-    [SerializeField] private Camera mainCam;
+    private Camera mainCam;
     private bool canBuild;
 
     [Header("Tilemap")]
@@ -20,7 +20,7 @@ public class BuildingManager : MonoBehaviour
 
     [Header("Turrets")]
     [SerializeField] private List<GameObject> turretPrefabs;
-    [SerializeField] private Vector3 turretOffset;
+    private Vector3 turretOffset = new Vector3(0.5f, 0.5f, 0);
     private GameObject selectedTurret;
     private List<Turret> turrets = new List<Turret>();
     [SerializeField] LayerMask turretLayerMask;
@@ -63,10 +63,13 @@ public class BuildingManager : MonoBehaviour
         Instance = this;
         mouseInput = new MouseInput();
         keyInput = new KeyboardInput();
-        playerMovement = Player.Instance.GetComponent<PlayerMovement>();
         currentMaterials = startMaterials;
         materialsText.text = currentMaterials.ToString();
+        mainCam = Camera.main;
 
+    }
+    private void Start()
+    {
         foreach (GameObject go in turretPrefabs)
         {
             Turret t = go.GetComponent<Turret>();
@@ -77,9 +80,7 @@ public class BuildingManager : MonoBehaviour
         {
             turretCostText[i].text = turretPrefabs[i].GetComponent<Turret>().Cost.ToString();
         }
-    }
-    private void Start()
-    {
+
         mouseInput.Mouse.MouseClick.performed += _ => BuildTurret();
         mouseInput.Mouse.CancelBuild.performed += _ => CancelBuild();
         keyInput.Keyboard.Turret1.performed += _ => BuildTurret(0);
@@ -90,11 +91,7 @@ public class BuildingManager : MonoBehaviour
     }
     private void Update()
     {
-        if (!canBuild)
-        {
-            return;
-        }
-        else
+        if (canBuild)
         {
             //convert mouse pos to tilemap grip position
             Vector2 mousePosition = mouseInput.Mouse.MousePosition.ReadValue<Vector2>();

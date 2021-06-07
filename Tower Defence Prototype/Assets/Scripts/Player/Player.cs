@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour, IDamageable
 {
-    public static Player Instance { get; private set; }
+    public static Player Instance;
 
     [Header("Stats")]
     [SerializeField] private float maxHealth;

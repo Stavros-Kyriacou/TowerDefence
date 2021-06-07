@@ -100,4 +100,8 @@ public class Turret : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
+    private void OnMouseEnter()
+    {
+        // Debug.Log("Hello");
+    }
 }
