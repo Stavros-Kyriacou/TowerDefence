@@ -61,7 +61,6 @@ public class PlayerMovement : MonoBehaviour
     }
     private void MouseClick()
     {
-        Debug.Log("Player Move Mouse Click :)");
         if (canMove)
         {
             //get the mouse position in world space

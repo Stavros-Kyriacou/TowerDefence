@@ -32,11 +32,10 @@ public class BuildingManager : MonoBehaviour
     private int selectedTurretCost;
 
     [Header("HUD")]
-    [SerializeField] private List<TextMeshProUGUI> turretCosts;
+    [SerializeField] private List<TextMeshProUGUI> turretCostText;
 
     Vector3Int currentGridPos;
     Vector3Int previousGridPos;
-    [SerializeField] Collider2D[] hit;
 
     public int CurrentMaterials
     {
@@ -74,9 +73,9 @@ public class BuildingManager : MonoBehaviour
             turrets.Add(t);
         }
 
-        for (int i = 0; i < turretCosts.Count; i++)
+        for (int i = 0; i < turretCostText.Count; i++)
         {
-            turretCosts[i].text = turretPrefabs[i].GetComponent<Turret>().Cost.ToString();
+            turretCostText[i].text = turretPrefabs[i].GetComponent<Turret>().Cost.ToString();
         }
     }
     private void Start()
@@ -138,7 +137,6 @@ public class BuildingManager : MonoBehaviour
     }
     private void BuildTurret()
     {
-        Debug.Log("Build Turret :)");
         if (canBuild && selectedTurret != null && selectedTurretCost <= currentMaterials)
         {
             //Convert mouse position to tilemap grid position
@@ -180,13 +178,6 @@ public class BuildingManager : MonoBehaviour
         currentGridPos = new Vector3Int(0, 0, 0);
         previousGridPos = new Vector3Int(0, 0, 0);
     }
-    private void Turret1()
-    {
-        Debug.Log("Select turret 1");
-        canBuild = true;
-        selectedTurret = turretPrefabs[0];
-        selectedTurretCost = turrets[0].Cost;
-    }
     private void BuildTurret(int type)
     {
         switch (type)
@@ -210,7 +201,6 @@ public class BuildingManager : MonoBehaviour
                 Debug.Log("No Turret Selected, Defaul Case");
                 break;
         }
-        Debug.Log("Select turret 1");
         canBuild = true;
         selectedTurret = turretPrefabs[type];
         selectedTurretCost = turrets[type].Cost;

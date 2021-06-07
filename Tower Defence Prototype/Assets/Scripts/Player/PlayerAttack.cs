@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+using TMPro;
 
 public class PlayerAttack : MonoBehaviour
 {
     [Header("Spell List")]
     [SerializeField] private List<SpellBase> spellList = new List<SpellBase>();
+    [SerializeField] private List<TextMeshProUGUI> spellCostText = new List<TextMeshProUGUI>();
 
     //cache components
     private Camera mainCam;
@@ -17,12 +19,17 @@ public class PlayerAttack : MonoBehaviour
 
     private bool canCast = true;
 
-    private void Awake()
+    private void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
         // aiPath = GetComponent<AIPath>();
         mainCam = Camera.main;
         player = GetComponent<Player>();
+
+        for (int i = 0; i < spellList.Count; i++)
+        {
+            spellCostText[i].text = spellList[i].ManaCost.ToString();
+        }
     }
     void Update()
     {
