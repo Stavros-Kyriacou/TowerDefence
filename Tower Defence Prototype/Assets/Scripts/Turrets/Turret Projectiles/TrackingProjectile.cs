@@ -31,6 +31,10 @@ public class TrackingProjectile : MonoBehaviour
 
         transform.position = Vector3.MoveTowards(transform.position, target.position, travelSpeed * Time.deltaTime);
 
+        Vector3 dir = target.position - transform.position;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
         if (Vector3.Distance(transform.position, target.transform.position) < 0.1f)
         {
             Hit();

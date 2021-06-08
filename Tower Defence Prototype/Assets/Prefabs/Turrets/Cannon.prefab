@@ -128,19 +128,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 20
+  minDamage: 30
+  maxDamage: 45
   attackRange: 4
-  attacksPerSecond: 1
+  attacksPerSecond: 1.5
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 512
   targetUpdateRate: 0.35
   tracksTarget: 1
   rotationSpeed: 10
-  target: {fileID: 0}
   projectilePrefab: {fileID: 1966053145848812904, guid: 81412492d54ca1443a6cd752aac727d6, type: 3}
   firePoint: {fileID: 9075081710469713429}
-  minDamage: 40
-  maxDamage: 50
   shootParticle: {fileID: 0}
 --- !u!58 &5044533460283631006
 CircleCollider2D:

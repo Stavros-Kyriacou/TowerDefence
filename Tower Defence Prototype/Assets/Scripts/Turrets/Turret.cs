@@ -6,6 +6,8 @@ public class Turret : MonoBehaviour
 {
     [Header("Attributes")]
     [SerializeField] private int cost;
+    [SerializeField] private int minDamage;
+    [SerializeField] private int maxDamage;
     [SerializeField] private float attackRange;
     [SerializeField] private float attacksPerSecond;
 
@@ -20,23 +22,27 @@ public class Turret : MonoBehaviour
     [Header("Projectile")]
     [SerializeField] private TrackingProjectile projectilePrefab;
     [SerializeField] private Transform firePoint;
-    [SerializeField] private int minDamage;
-    [SerializeField] private int maxDamage;
 
     [Header("Effects")]
     [SerializeField] private GameObject shootParticle;
 
 
     private float shootCoolDown = 0f;
+    private TurretStatScreen turretStats;
 
     public int Cost { get { return cost; } }
     public TrackingProjectile ProjectilePrefab { get { return projectilePrefab; } }
     public Transform FirePoint { get { return firePoint; } }
     public Transform Target { get { return target; } }
+    public int MinDamage { get { return minDamage; } }
+    public int MaxDamage { get { return maxDamage; } }
+    public float AttackRange { get { return attackRange; } }
+    public float AttacksPerSecond { get { return attacksPerSecond; } }
 
 
     private void Start()
     {
+        turretStats = BuildingManager.Instance.GetComponent<TurretStatScreen>();
         InvokeRepeating("FindClosestTarget", 0f, targetUpdateRate);
     }
     public void FindClosestTarget()
@@ -102,6 +108,18 @@ public class Turret : MonoBehaviour
     }
     private void OnMouseEnter()
     {
-        // Debug.Log("Hello");
+        if (turretStats == null)
+        {
+            return;
+        }
+        else
+        {
+            turretStats.Target = this;
+            turretStats.UpdateStats();
+        }
+    }
+    private void OnMouseExit()
+    {
+        turretStats.Target = null;
     }
 }

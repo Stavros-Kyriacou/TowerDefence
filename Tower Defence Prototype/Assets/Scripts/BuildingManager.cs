@@ -104,12 +104,6 @@ public class BuildingManager : MonoBehaviour
                 highlightTileMap.SetTile(previousGridPos, null);
                 highlightTileMap.SetTile(currentGridPos, highlightTile);
                 previousGridPos = currentGridPos;
-
-                //dont think this does anything?? idk i cant tell :^)
-                // if (!wallTileMap.HasTile(wallTileMap.WorldToCell(mousePosition)))
-                // {
-                //     highlightTileMap.SetTile(previousGridPos, null);
-                // }
             }
             else if (!wallTileMap.HasTile(currentGridPos))
             {
@@ -175,31 +169,32 @@ public class BuildingManager : MonoBehaviour
         currentGridPos = new Vector3Int(0, 0, 0);
         previousGridPos = new Vector3Int(0, 0, 0);
     }
-    private void BuildTurret(int type)
+    private void BuildTurret(int index)
     {
-        switch (type)
-        {
-            case 0:
-                Debug.Log("Turret 1 Selected");
-                break;
-            case 1:
-                Debug.Log("Turret 2 Selected");
-                break;
-            case 2:
-                Debug.Log("Turret 3 Selected");
-                break;
-            case 3:
-                Debug.Log("Turret 4 Selected");
-                break;
-            case 4:
-                Debug.Log("Turret 5 Selected");
-                break;
-            default:
-                Debug.Log("No Turret Selected, Defaul Case");
-                break;
-        }
+        // switch (index)
+        // {
+        //     case 0:
+        //         Debug.Log("Turret 1 Selected");
+        //         break;
+        //     case 1:
+        //         Debug.Log("Turret 2 Selected");
+        //         break;
+        //     case 2:
+        //         Debug.Log("Turret 3 Selected");
+        //         break;
+        //     case 3:
+        //         Debug.Log("Turret 4 Selected");
+        //         break;
+        //     case 4:
+        //         Debug.Log("Turret 5 Selected");
+        //         break;
+        //     default:
+        //         Debug.Log("No Turret Selected, Default Case");
+        //         break;
+        // }
+
         canBuild = true;
-        selectedTurret = turretPrefabs[type];
-        selectedTurretCost = turrets[type].Cost;
+        selectedTurret = turretPrefabs[index];
+        selectedTurretCost = turrets[index].Cost;
     }
 }
