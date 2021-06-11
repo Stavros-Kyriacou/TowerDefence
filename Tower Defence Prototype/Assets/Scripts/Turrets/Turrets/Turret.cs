@@ -29,6 +29,9 @@ public class Turret : MonoBehaviour
 
     private float shootCoolDown = 0f;
     private TurretStatScreen turretStats;
+    private float hoverTime = 0.3f;
+    private float hoverCounter = 0;
+    private bool isHovering;
 
     public int Cost { get { return cost; } }
     public TrackingProjectile ProjectilePrefab { get { return projectilePrefab; } }
@@ -74,6 +77,25 @@ public class Turret : MonoBehaviour
     }
     private void Update()
     {
+        //Turret stat mouse hover delay
+        if (isHovering && hoverCounter < hoverTime)
+        {
+            hoverCounter += Time.deltaTime;
+        }
+        if (hoverCounter >= hoverTime)
+        {
+            if (turretStats == null)
+            {
+                return;
+            }
+            else
+            {
+                turretStats.Target = this;
+                turretStats.UpdateStats();
+            }
+        }
+
+        //Target tracking
         if (target == null)
         {
             return;
@@ -108,18 +130,13 @@ public class Turret : MonoBehaviour
     }
     private void OnMouseEnter()
     {
-        if (turretStats == null)
-        {
-            return;
-        }
-        else
-        {
-            turretStats.Target = this;
-            turretStats.UpdateStats();
-        }
+        isHovering = true;
     }
     private void OnMouseExit()
     {
+        isHovering = false;
+        hoverCounter = 0f;
         turretStats.Target = null;
+        turretStats.StatScreen.SetActive(false);
     }
 }
