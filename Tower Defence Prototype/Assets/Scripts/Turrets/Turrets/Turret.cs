@@ -14,12 +14,14 @@ public class Turret : MonoBehaviour
 
     [Header("Targeting")]
     [SerializeField] private LayerMask targetLayerMask;
-    [SerializeField] private float targetUpdateRate;
     [SerializeField] private bool tracksTarget;
+    [SerializeField] private float targetUpdateRate;
     [SerializeField] private float rotationSpeed;
     private Transform target;
 
+
     [Header("Projectile")]
+    [SerializeField] private bool firesProjectiles;
     [SerializeField] private TrackingProjectile projectilePrefab;
     [SerializeField] private Transform firePoint;
 
@@ -28,10 +30,7 @@ public class Turret : MonoBehaviour
 
 
     private float shootCoolDown = 0f;
-    private TurretStatScreen turretStats;
-    private float hoverTime = 0.3f;
-    private float hoverCounter = 0;
-    private bool isHovering;
+    
 
     public int Cost { get { return cost; } }
     public TrackingProjectile ProjectilePrefab { get { return projectilePrefab; } }
@@ -45,8 +44,11 @@ public class Turret : MonoBehaviour
 
     private void Start()
     {
-        turretStats = BuildingManager.Instance.GetComponent<TurretStatScreen>();
-        InvokeRepeating("FindClosestTarget", 0f, targetUpdateRate);
+        
+        if (firesProjectiles)
+        {
+            InvokeRepeating("FindClosestTarget", 0f, targetUpdateRate);
+        }
     }
     public void FindClosestTarget()
     {
@@ -77,43 +79,28 @@ public class Turret : MonoBehaviour
     }
     private void Update()
     {
-        //Turret stat mouse hover delay
-        if (isHovering && hoverCounter < hoverTime)
+        //Target tracking
+        if (tracksTarget)
         {
-            hoverCounter += Time.deltaTime;
-        }
-        if (hoverCounter >= hoverTime)
-        {
-            if (turretStats == null)
+            if (target == null)
             {
                 return;
             }
-            else
-            {
-                turretStats.Target = this;
-                turretStats.UpdateStats();
-            }
-        }
 
-        //Target tracking
-        if (target == null)
-        {
-            return;
-        }
-
-        if (tracksTarget)
-        {
             Vector3 dir = target.position - transform.position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.AngleAxis(angle, Vector3.forward), rotationSpeed * Time.deltaTime);
-        }
 
-        if (shootCoolDown <= 0f)
-        {
-            Shoot();
-            shootCoolDown = 1 / attacksPerSecond;
+            if (firesProjectiles)
+            {
+                if (shootCoolDown <= 0f)
+                {
+                    Shoot();
+                    shootCoolDown = 1 / attacksPerSecond;
+                }
+                shootCoolDown -= Time.deltaTime;
+            }
         }
-        shootCoolDown -= Time.deltaTime;
     }
     public virtual void Shoot()
     {
@@ -128,15 +115,5 @@ public class Turret : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
-    private void OnMouseEnter()
-    {
-        isHovering = true;
-    }
-    private void OnMouseExit()
-    {
-        isHovering = false;
-        hoverCounter = 0f;
-        turretStats.Target = null;
-        turretStats.StatScreen.SetActive(false);
-    }
 }
+    

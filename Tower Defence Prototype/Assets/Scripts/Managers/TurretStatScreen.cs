@@ -26,8 +26,6 @@ public class TurretStatScreen : MonoBehaviour
     {
         mainCam = Camera.main;
         statScreen.SetActive(false);
-        Debug.Log($"Screen width: {Screen.width}    Screen height: {Screen.height}");
-        Debug.Log($"Background width: {backGround.rect.width}     Background height: {backGround.rect.height}");
     }
     private void Update()
     {

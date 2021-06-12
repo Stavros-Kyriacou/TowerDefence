@@ -10,8 +10,8 @@ public class EnemyAggro : MonoBehaviour
     [SerializeField] private float aggroDuration;
     [SerializeField] private float aggroMoveSpeed;
 
-    [SerializeField]private bool inAggroRange;
-    [SerializeField]private float aggroTriggerCounter = 0;
+    [SerializeField] private bool inAggroRange;
+    [SerializeField] private float aggroTriggerCounter = 0;
 
     private bool aggroPlayer;
 
@@ -22,34 +22,9 @@ public class EnemyAggro : MonoBehaviour
     private Crystal crystal;
 
     //properties
-    public float AggroRange
-    {
-        get
-        {
-            return aggroRange;
-        }
-    }
-    public float AggroTriggerTime
-    {
-        get
-        {
-            return aggroTriggerTime;
-        }
-    }
-    public float AggroDuration
-    {
-        get
-        {
-            return aggroTriggerTime;
-        }
-    }
-    public float AggroMoveSpeed
-    {
-        get
-        {
-            return aggroMoveSpeed;
-        }
-    }
+    public float AggroRange { get { return aggroRange; } }
+    public float AggroTriggerTime { get { return aggroTriggerTime; } }
+    public float AggroDuration { get { return aggroTriggerTime; } }
 
 
     void Start()
@@ -60,10 +35,11 @@ public class EnemyAggro : MonoBehaviour
         crystal = Crystal.Instance;
 
         SetTarget(crystal.transform);
-        
+
     }
     void Update()
     {
+        //For optimisation, change this to set in range using collision enter events instead of constantly checking distance to player
         FindDistanceToPlayer();
 
         if (aggroPlayer)

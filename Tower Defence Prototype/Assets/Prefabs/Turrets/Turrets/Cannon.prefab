@@ -40,8 +40,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7878106922371658662}
   - component: {fileID: 7878106922371658681}
-  - component: {fileID: 4567203735639583561}
   - component: {fileID: 5044533460283631006}
+  - component: {fileID: 4567203735639583561}
+  - component: {fileID: 3050926921382545638}
   m_Layer: 11
   m_Name: Cannon
   m_TagString: Turret
@@ -115,6 +116,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &5044533460283631006
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7878106922371658683}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.4
 --- !u!114 &4567203735639583561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,25 +152,22 @@ MonoBehaviour:
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 512
-  targetUpdateRate: 0.35
   tracksTarget: 1
+  targetUpdateRate: 0.35
   rotationSpeed: 10
+  firesProjectiles: 1
   projectilePrefab: {fileID: 1966053145848812904, guid: 81412492d54ca1443a6cd752aac727d6, type: 3}
   firePoint: {fileID: 9075081710469713429}
   shootParticle: {fileID: 0}
---- !u!58 &5044533460283631006
-CircleCollider2D:
+--- !u!114 &3050926921382545638
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7878106922371658683}
   m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.4
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2157f868294d08248a1d25227dd57134, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

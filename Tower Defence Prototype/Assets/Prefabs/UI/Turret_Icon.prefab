@@ -245,8 +245,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 28.3, y: 31.5}
-  m_SizeDelta: {x: 26.29, y: 19.9}
+  m_AnchoredPosition: {x: 7.2974, y: 31.5}
+  m_SizeDelta: {x: 68.295044, y: 19.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8985264061793592939
 CanvasRenderer:
@@ -310,7 +310,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -430,7 +430,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8985264061997056549}
   m_Layer: 5
-  m_Name: TurretIcon_1
+  m_Name: Turret_Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
