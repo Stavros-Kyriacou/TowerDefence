@@ -23,30 +23,9 @@ public class Player : MonoBehaviour, IDamageable
     public float MaxMana { get { return maxMana; } }
     public float CurrentMana { get { return currentMana; } set { currentMana = value; } }
     public float CurrentHealth
-    {
-        get
-        {
-            return currentHealth;
-        }
-        set
-        {
-            currentHealth = value;
-        }
-    }
-    public float MaxHealth
-    {
-        get
-        {
-            return maxHealth;
-        }
-    }
-    public Image ManaBar
-    {
-        get
-        {
-            return manaBar;
-        }
-    }
+    { get { return currentHealth; } set { currentHealth = value; } }
+    public float MaxHealth { get { return maxHealth; } }
+    public Image ManaBar { get { return manaBar; } }
 
     private void Awake()
     {
