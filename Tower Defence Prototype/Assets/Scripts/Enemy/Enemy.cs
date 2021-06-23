@@ -20,7 +20,6 @@ public class Enemy : MonoBehaviour, ISlow
     }
     public void ApplySlow(float slowPercent, float slowDuration)
     {
-        Debug.Log("Start apply slow");
         //prevent slows from stacking
         if (currentMoveSpeed != maxMoveSpeed)
         {
@@ -36,20 +35,16 @@ public class Enemy : MonoBehaviour, ISlow
         {
             slowIcon.enabled = true;
         }
-        Debug.Log("Slow applied");
         StartCoroutine(Slow(slowDuration));
 
     }
     public IEnumerator Slow(float slowDuration)
     {
-        Debug.Log("Enter coroutine");
         yield return new WaitForSeconds(slowDuration);
-        Debug.Log("Wait for seconds finished");
         RemoveSlow();
     }
     public void RemoveSlow()
     {
-        Debug.Log("Start Remove slow");
         //change movement speed
         currentMoveSpeed = maxMoveSpeed;
         aIPath.maxSpeed = currentMoveSpeed;
@@ -59,6 +54,5 @@ public class Enemy : MonoBehaviour, ISlow
             //hide slow effect icon
             slowIcon.enabled = false;
         }
-        Debug.Log("Slow removed");
     }
 }
