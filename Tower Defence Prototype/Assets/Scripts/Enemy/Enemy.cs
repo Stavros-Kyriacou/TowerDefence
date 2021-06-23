@@ -26,22 +26,24 @@ public class Enemy : MonoBehaviour, ISlow
             return;
         }
 
-        //change movespeed
-        currentMoveSpeed = currentMoveSpeed * (1 - slowPercent);
-        aIPath.maxSpeed = currentMoveSpeed;
+        ChangeMoveSpeed(slowPercent);
 
         ToggleSlowGFX(true);
 
-        StartCoroutine(Slow(slowDuration));
+        StartCoroutine(SlowDuration(slowDuration));
     }
-    public IEnumerator Slow(float slowDuration)
+    public IEnumerator SlowDuration(float slowDuration)
     {
         yield return new WaitForSeconds(slowDuration);
         RemoveSlow();
     }
+    private void ChangeMoveSpeed(float slowPercent)
+    {
+        currentMoveSpeed = currentMoveSpeed * (1 - slowPercent);
+        aIPath.maxSpeed = currentMoveSpeed;
+    }
     private void RemoveSlow()
     {
-        //change movement speed
         currentMoveSpeed = maxMoveSpeed;
         aIPath.maxSpeed = currentMoveSpeed;
 
