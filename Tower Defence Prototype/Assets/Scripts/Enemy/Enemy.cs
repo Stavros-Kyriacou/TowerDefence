@@ -6,47 +6,47 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private Image _slowIcon;
-    [SerializeField] private float _maxMoveSpeed;
-    private float _currentMoveSpeed;
-    private AIPath _aIPath;
+    [SerializeField] private Image slowIcon;
+    [SerializeField] private float maxMoveSpeed;
+    private float currentMoveSpeed;
+    private AIPath aIPath;
 
     private void Start()
     {
-        _slowIcon.enabled = false;
-        _currentMoveSpeed = _maxMoveSpeed;
-        _aIPath = GetComponent<AIPath>();
-        _aIPath.maxSpeed = _currentMoveSpeed;
+        slowIcon.enabled = false;
+        currentMoveSpeed = maxMoveSpeed;
+        aIPath = GetComponent<AIPath>();
+        aIPath.maxSpeed = currentMoveSpeed;
     }
 
-    public void Slow(float pcnt)
+    public void ApplySlow(float pcnt)
     {
-        if (_currentMoveSpeed != _maxMoveSpeed)
+        if (currentMoveSpeed != maxMoveSpeed)
         {
             //prevent slows from stacking
             return;
         }
 
         //change movement speed
-        _currentMoveSpeed = _currentMoveSpeed * (1 - pcnt);
-        _aIPath.maxSpeed = _currentMoveSpeed;
+        currentMoveSpeed = currentMoveSpeed * (1 - pcnt);
+        aIPath.maxSpeed = currentMoveSpeed;
 
-        if (_slowIcon != null)
+        if (slowIcon != null)
             {
                 //show slow effect icon
-                _slowIcon.enabled = true;
+                slowIcon.enabled = true;
             }
     }
     public void RemoveSlow()
     {
         //change movement speed
-        _currentMoveSpeed = _maxMoveSpeed;
-        _aIPath.maxSpeed = _currentMoveSpeed;
+        currentMoveSpeed = maxMoveSpeed;
+        aIPath.maxSpeed = currentMoveSpeed;
         
-        if (_slowIcon != null)
+        if (slowIcon != null)
             {
                 //hide slow effect icon
-                _slowIcon.enabled = false;
+                slowIcon.enabled = false;
             }
     }
 }
