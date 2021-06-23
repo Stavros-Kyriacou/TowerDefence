@@ -20,41 +20,54 @@ public class Enemy : MonoBehaviour, ISlow
     }
     public void ApplySlow(float slowPercent, float slowDuration)
     {
+        Debug.Log("Start apply slow");
+        //prevent slows from stacking
         if (currentMoveSpeed != maxMoveSpeed)
         {
             return;
         }
 
+        //change movespeed
         currentMoveSpeed = currentMoveSpeed * (1 - slowPercent);
         aIPath.maxSpeed = currentMoveSpeed;
 
+        //show slow icon gfx
         if (slowIcon != null)
         {
-            //show slow effect icon
             slowIcon.enabled = true;
         }
+        Debug.Log("Slow applied");
+        StartCoroutine(Slow(slowDuration));
 
     }
-    public void ApplySlow(float pcnt)
+    public IEnumerator Slow(float slowDuration)
     {
-        if (currentMoveSpeed != maxMoveSpeed)
-        {
-            //prevent slows from stacking
-            return;
-        }
-
-        //change movement speed
-        currentMoveSpeed = currentMoveSpeed * (1 - pcnt);
-        aIPath.maxSpeed = currentMoveSpeed;
-
-        if (slowIcon != null)
-        {
-            //show slow effect icon
-            slowIcon.enabled = true;
-        }
+        Debug.Log("Enter coroutine");
+        yield return new WaitForSeconds(slowDuration);
+        Debug.Log("Wait for seconds finished");
+        RemoveSlow();
     }
+    // public void ApplySlow(float pcnt)
+    // {
+    //     if (currentMoveSpeed != maxMoveSpeed)
+    //     {
+    //         //prevent slows from stacking
+    //         return;
+    //     }
+
+    //     //change movement speed
+    //     currentMoveSpeed = currentMoveSpeed * (1 - pcnt);
+    //     aIPath.maxSpeed = currentMoveSpeed;
+
+    //     if (slowIcon != null)
+    //     {
+    //         //show slow effect icon
+    //         slowIcon.enabled = true;
+    //     }
+    // }
     public void RemoveSlow()
     {
+        Debug.Log("Start Remove slow");
         //change movement speed
         currentMoveSpeed = maxMoveSpeed;
         aIPath.maxSpeed = currentMoveSpeed;
@@ -64,5 +77,6 @@ public class Enemy : MonoBehaviour, ISlow
             //hide slow effect icon
             slowIcon.enabled = false;
         }
+        Debug.Log("Slow removed");
     }
 }

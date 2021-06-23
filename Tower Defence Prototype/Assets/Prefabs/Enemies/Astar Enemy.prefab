@@ -378,8 +378,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16bd12295734e2d48a52593b3972c44f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slowIcon: {fileID: 566885070761217508}
-  _maxMoveSpeed: 3
+  slowIcon: {fileID: 566885070761217508}
+  maxMoveSpeed: 3
 --- !u!114 &-3680914477126522372
 MonoBehaviour:
   m_ObjectHideFlags: 0

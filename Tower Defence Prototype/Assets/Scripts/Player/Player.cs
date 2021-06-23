@@ -20,24 +20,8 @@ public class Player : MonoBehaviour, IDamageable
     private float currentHealth;
     private float currentMana;
 
-    public float MaxMana
-    {
-        get
-        {
-            return maxMana;
-        }
-    }
-    public float CurrentMana
-    {
-        get
-        {
-            return currentMana;
-        }
-        set
-        {
-            currentMana = value;
-        }
-    }
+    public float MaxMana { get { return maxMana; } }
+    public float CurrentMana { get { return currentMana; } set { currentMana = value; } }
     public float CurrentHealth
     {
         get
