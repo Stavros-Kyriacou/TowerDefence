@@ -47,24 +47,6 @@ public class Enemy : MonoBehaviour, ISlow
         Debug.Log("Wait for seconds finished");
         RemoveSlow();
     }
-    // public void ApplySlow(float pcnt)
-    // {
-    //     if (currentMoveSpeed != maxMoveSpeed)
-    //     {
-    //         //prevent slows from stacking
-    //         return;
-    //     }
-
-    //     //change movement speed
-    //     currentMoveSpeed = currentMoveSpeed * (1 - pcnt);
-    //     aIPath.maxSpeed = currentMoveSpeed;
-
-    //     if (slowIcon != null)
-    //     {
-    //         //show slow effect icon
-    //         slowIcon.enabled = true;
-    //     }
-    // }
     public void RemoveSlow()
     {
         Debug.Log("Start Remove slow");
