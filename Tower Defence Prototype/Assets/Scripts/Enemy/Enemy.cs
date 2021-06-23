@@ -30,29 +30,28 @@ public class Enemy : MonoBehaviour, ISlow
         currentMoveSpeed = currentMoveSpeed * (1 - slowPercent);
         aIPath.maxSpeed = currentMoveSpeed;
 
-        //show slow icon gfx
-        if (slowIcon != null)
-        {
-            slowIcon.enabled = true;
-        }
-        StartCoroutine(Slow(slowDuration));
+        ToggleSlowGFX(true);
 
+        StartCoroutine(Slow(slowDuration));
     }
     public IEnumerator Slow(float slowDuration)
     {
         yield return new WaitForSeconds(slowDuration);
         RemoveSlow();
     }
-    public void RemoveSlow()
+    private void RemoveSlow()
     {
         //change movement speed
         currentMoveSpeed = maxMoveSpeed;
         aIPath.maxSpeed = currentMoveSpeed;
 
+        ToggleSlowGFX(false);
+    }
+    public void ToggleSlowGFX(bool state)
+    {
         if (slowIcon != null)
         {
-            //hide slow effect icon
-            slowIcon.enabled = false;
+            slowIcon.enabled = state;
         }
     }
 }
