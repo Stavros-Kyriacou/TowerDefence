@@ -30,10 +30,11 @@ public class Turret : MonoBehaviour
 
 
     private float shootCoolDown = 0f;
-    
+
 
     public int Cost { get { return cost; } }
     public TrackingProjectile ProjectilePrefab { get { return projectilePrefab; } }
+    public LayerMask TargetLayerMask { get { return targetLayerMask; } }
     public Transform FirePoint { get { return firePoint; } }
     public Transform Target { get { return target; } }
     public int MinDamage { get { return minDamage; } }
@@ -44,7 +45,7 @@ public class Turret : MonoBehaviour
 
     private void Start()
     {
-        
+
         if (firesProjectiles)
         {
             InvokeRepeating("FindClosestTarget", 0f, targetUpdateRate);
@@ -116,4 +117,4 @@ public class Turret : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }
-    
+

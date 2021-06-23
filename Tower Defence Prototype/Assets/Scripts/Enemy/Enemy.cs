@@ -4,7 +4,7 @@ using UnityEngine;
 using Pathfinding;
 using UnityEngine.UI;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, ISlow
 {
     [SerializeField] private Image slowIcon;
     [SerializeField] private float maxMoveSpeed;
@@ -18,7 +18,23 @@ public class Enemy : MonoBehaviour
         aIPath = GetComponent<AIPath>();
         aIPath.maxSpeed = currentMoveSpeed;
     }
+    public void ApplySlow(float slowPercent, float slowDuration)
+    {
+        if (currentMoveSpeed != maxMoveSpeed)
+        {
+            return;
+        }
 
+        currentMoveSpeed = currentMoveSpeed * (1 - slowPercent);
+        aIPath.maxSpeed = currentMoveSpeed;
+
+        if (slowIcon != null)
+        {
+            //show slow effect icon
+            slowIcon.enabled = true;
+        }
+
+    }
     public void ApplySlow(float pcnt)
     {
         if (currentMoveSpeed != maxMoveSpeed)
@@ -32,21 +48,21 @@ public class Enemy : MonoBehaviour
         aIPath.maxSpeed = currentMoveSpeed;
 
         if (slowIcon != null)
-            {
-                //show slow effect icon
-                slowIcon.enabled = true;
-            }
+        {
+            //show slow effect icon
+            slowIcon.enabled = true;
+        }
     }
     public void RemoveSlow()
     {
         //change movement speed
         currentMoveSpeed = maxMoveSpeed;
         aIPath.maxSpeed = currentMoveSpeed;
-        
+
         if (slowIcon != null)
-            {
-                //hide slow effect icon
-                slowIcon.enabled = false;
-            }
+        {
+            //hide slow effect icon
+            slowIcon.enabled = false;
+        }
     }
 }
